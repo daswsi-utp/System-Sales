@@ -51,10 +51,10 @@ export default function Home() {
 
                     </div>
                     <div className="absolute bottom-0 left-0 flex w-full items-center justify-between space-x-5 self-end p-5 lg:static lg:w-auto lg:self-center lg:p-0">
-                        <Link href="#" className={` ${heading.className, "sans-serif"} text-[#79808a] dark:text-white hover:bg-primary/90 w-full px-6 py-3 text-center whitespace-nowrap text-xl rounded-xl border-2 border-white lg:w-auto dark:bg-[#111722] dark:border-[#111722] transition duration-300 ease-in-out"`}>Sign In
+                        <Link href="./auth/login" className={` ${heading.className, "sans-serif"} text-[#79808a] dark:text-white hover:bg-primary/90 w-full px-6 py-3 text-center whitespace-nowrap text-xl rounded-xl border-2 border-white lg:w-auto dark:bg-[#111722] dark:border-[#111722] transition duration-300 ease-in-out"`}>Sign In
                         </Link>
                         <div className="flex items-center space-x-3 gap-2">
-                            <Link href="#" className={` ${heading.className, "sans-serif"} text-[#79808a] dark:text-white hover:bg-primary/90 w-full px-6 py-3 text-center whitespace-nowrap text-xl rounded-xl border-2 border-white lg:w-auto dark:bg-[#111722] dark:border-[#111722] transition duration-300 ease-in-out"`}>Sign Up</Link>
+                            <Link href="./auth/new-account" className={` ${heading.className, "sans-serif"} text-[#79808a] dark:text-white hover:bg-primary/90 w-full px-6 py-3 text-center whitespace-nowrap text-xl rounded-xl border-2 border-white lg:w-auto dark:bg-[#111722] dark:border-[#111722] transition duration-300 ease-in-out"`}>Sign Up</Link>
                             <div className="text-white">
                                 <AiOutlineMoon size={30} className="dark:hidden text-[#79808a] text-3xl" />
                                 <GoSun size={24} className="hidden dark:block text-2xl" />
@@ -130,7 +130,9 @@ export default function Home() {
                         <div className="w-full lg:w-1/2 text-center lg:text-left space-y-6">
                             <h2 className="text-4xl sm:text-5xl font-bold leading-tight">
                                  ABOUT US
-                            </h2>
+                            </h2>  
+                            
+                              
                             <p className="text-lg sm:text-xl opacity-90 text-[#79808a] text-justify">
                             We are a team of students from the Systems Engineering and Computer Science degree who like to carry out problem-based projects to help others.
                             </p>
