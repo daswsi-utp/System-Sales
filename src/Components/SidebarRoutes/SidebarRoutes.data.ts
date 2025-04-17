@@ -1,21 +1,26 @@
-import { BarChart4, Building2, Calendar, CircleHelpIcon, PanelsTopLeft, Settings, ShieldCheck } from "lucide-react";
+import { BaggageClaim, BarChart4, BookText, Building2, Calendar, CircleHelpIcon, ClipboardMinus, NotepadText, PanelsTopLeft, Settings, ShieldCheck, User } from "lucide-react";
 import { hrtime } from "process";
 
 export const dataGeneralSidebar = [
     {
-        icon:PanelsTopLeft,
-        label:"Dashboard",
-        href:"/"
+        icon:NotepadText,
+        label:"Inventory",
+        href:"/dashboard/inventory"
     },
     {
         icon:Building2,
-        label:"Companies",
-        href:"/companies"
+        label:"Sales",
+        href:"/dashboard/sales"
     },
     {
-        icon:Calendar,
-        label:"Calendar",
-        href:"/task"
+        icon:BaggageClaim, //baggage-claim
+        label:"Orders",
+        href:"/dashboard/orders"
+    },
+    {
+        icon:ClipboardMinus,
+        label:"Reports",
+        href:"/dashboard/reports"
     }
 ]
 
@@ -37,11 +42,11 @@ export const dataSupportSidebar = [
     {
         icon: Settings,
         label:"Setting",
-        href:"/setting"
+        href:"/dashboard/settings"
     },
     {
-        icon:ShieldCheck,
-        label:"Security",
-        href:"/security",
+        icon:User,
+        label:"Account",
+        href:"/dashboard/account",
     }
 ]
