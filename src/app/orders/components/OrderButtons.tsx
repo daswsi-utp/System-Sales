@@ -1,12 +1,21 @@
-import Link from 'next/link';
+'use client';
+
+import { useState } from 'react';
+import OrderModal from '../add-order/OrderModal';
 
 export default function OrderButtons() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
-    <Link
-      href="/orders/add-order"
-      className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
-    >
-      + Nuevo Pedido
-    </Link>
+    <>
+      <button
+        onClick={() => setIsModalOpen(true)}
+        className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
+      >
+        + New Order
+      </button>
+      
+      {isModalOpen && <OrderModal onClose={() => setIsModalOpen(false)} />}
+    </>
   );
 }
