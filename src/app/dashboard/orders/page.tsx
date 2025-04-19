@@ -69,7 +69,8 @@ export default function OrdersPage() {
                   <tr key={`${order.id}-${order.customer}`} className="hover:bg-gray-50 transition-colors duration-150">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <Link
-                        href={`/orders/id?id=${order.id}`}
+                        href={`orders/[id]?id=${order.id}`}
+                        /*href={`/orders/id?id=${order.id}`}*/
                         className="text-blue-600 hover:text-blue-800 hover:underline font-medium"
                       >
                         #{order.id}
