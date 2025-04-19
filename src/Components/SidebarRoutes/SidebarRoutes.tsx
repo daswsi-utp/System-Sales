@@ -1,11 +1,16 @@
 "use client"
 import { Separator } from '@radix-ui/react-separator';
 import { SidebarItem } from '../SidebarItem/SidebarItem';
-import { dataGeneralSidebar, dataSupportSidebar, dataToolsSidebar } from './SidebarRoutes.data';
+import { dataGeneralSidebar, dataSupportSidebar } from './SidebarRoutes.data';
 import { Button } from '../ui/button';
 import { LuAnvil } from 'react-icons/lu';
 
 export const SidebarRoutes = () => {
+  const redirigir = () => {
+    window.location.href = '/'; 
+  };
+
+
   return (
     <div className="flex flex-col justify-between h-full">
       <div>
@@ -28,15 +33,15 @@ export const SidebarRoutes = () => {
           <p className='text-[#79808a] mb-2'>SUPPORT</p>
           {
             dataSupportSidebar.map(item => (
-              <SidebarItem key={item.label} item={item} />
+              <SidebarItem key={item.label} item={item}/>
             ))
           }
         </div>
         <Separator />
       </div>
       <div>
-        <div className='text-center p-6'>
-          <Button variant="outline" className='w-full text-[#79808a]'>
+        <div  className='text-center p-6'>
+          <Button onClick={redirigir} variant="outline" className='w-full text-[#79808a] cursor-pointer'>
             Sign out
           </Button>
         </div>

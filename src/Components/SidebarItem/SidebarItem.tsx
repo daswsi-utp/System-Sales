@@ -2,11 +2,10 @@
 import Link from "next/link";
 import { SidebarItemsProps } from "./SidebarItem.type"
 import { cn } from "@/lib/utils";
-import { Icon } from "lucide-react";
 import { usePathname } from "next/navigation";
 
 export const SidebarItem = (props:SidebarItemsProps) => {
-    const {item,key } = props;
+    const {item} = props;
     const {href,icon:Icon,label} = item;
     const pathname = usePathname()
     const actiPath = pathname ==href

@@ -42,14 +42,14 @@ export const CardNbasPresentationItem = () => {
     };
   
     return (
-      <div className="flex justify-center items-center min-h-screen cursor-pointer">
-        <div className="max-w-[1200px] mx-auto">  
+
+        <div className="max-w-[1200px] mx-auto pb-28">  
         <h2 className="text-center pb-12 text-4xl text-[#111722]">WE OFFER THIS FOR YOU</h2>        
           <div className="flex flex-row gap-6 justify-center ">
             {renderCards()} 
           </div>
         </div>
-      </div>
+
     );
   };
   

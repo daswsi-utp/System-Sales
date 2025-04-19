@@ -24,7 +24,7 @@ export default function LoginPage() {
                     </div>
 
                     <p className="text-center text-gray-400">
-                        Don't have an account?{" "}
+                        Dont have an account?{" "}
                         <Link href="/auth/new-account" className="font-bold text-black hover:underline">
                             Sign up for free
                         </Link>

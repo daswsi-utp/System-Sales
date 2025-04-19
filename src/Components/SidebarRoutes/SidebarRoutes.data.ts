@@ -1,5 +1,4 @@
-import { BaggageClaim, BarChart4, BookText, Building2, Calendar, CircleHelpIcon, ClipboardMinus, NotepadText, PanelsTopLeft, Settings, ShieldCheck, User } from "lucide-react";
-import { hrtime } from "process";
+import { BaggageClaim, BarChart4, Building2, CircleHelpIcon, ClipboardMinus, NotepadText, Settings, User } from "lucide-react";
 
 export const dataGeneralSidebar = [
     {
