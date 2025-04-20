@@ -1,4 +1,3 @@
-
 import { Metadata } from 'next';
 import Link from 'next/link';
 import OrderForm from './components/OrderForm';
@@ -30,7 +29,20 @@ const statusStyles = {
   Cancelled: 'bg-red-100 text-red-800',
 };
 
-export default function OrdersPage() {
+export default function OrdersPage({
+  searchParams,
+}: {
+  searchParams: { search?: string }
+}) {
+  const searchTerm = searchParams?.search?.toLowerCase() || '';
+
+  const filteredOrders = orders.filter(order =>
+    order.id.toLowerCase().includes(searchTerm) ||
+    order.customer.toLowerCase().includes(searchTerm) ||
+    order.status.toLowerCase().includes(searchTerm) ||
+    order.total.toLowerCase().includes(searchTerm)
+  );
+
   return (
     <div className="px-4 sm:px-6 lg:px-8 py-8">
       <div className="max-w-7xl mx-auto">
@@ -43,7 +55,7 @@ export default function OrdersPage() {
           <OrderButtons />
         </div>
 
-        <OrderForm />
+        <OrderForm initialSearch={searchParams.search} />
 
         <div className="mt-8 bg-white shadow overflow-hidden rounded-lg">
           <div className="overflow-x-auto">
@@ -65,12 +77,11 @@ export default function OrdersPage() {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                {orders.map((order) => (
+                {filteredOrders.map((order) => (
                   <tr key={`${order.id}-${order.customer}`} className="hover:bg-gray-50 transition-colors duration-150">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <Link
-                        href={`orders/[id]?id=${order.id}`}
-                        /*href={`/orders/id?id=${order.id}`}*/
+                        href={`/dashboard/orders/${order.id}`}  // Cambia esta línea
                         className="text-blue-600 hover:text-blue-800 hover:underline font-medium"
                       >
                         #{order.id}
@@ -97,7 +108,7 @@ export default function OrdersPage() {
         <nav className="mt-6 flex items-center justify-between" aria-label="Pagination">
           <div className="hidden sm:block">
             <p className="text-sm text-gray-700">
-              Displaying <span className="font-medium">1</span> a <span className="font-medium">12</span> de <span className="font-medium">12</span> orders
+              Displaying <span className="font-medium">1</span> to <span className="font-medium">{filteredOrders.length}</span> of <span className="font-medium">{orders.length}</span> orders
             </p>
           </div>
           <div className="flex-1 flex justify-between sm:justify-end">
