@@ -58,12 +58,12 @@ export default function LoginForm() {
           Forgot password?
         </Link>
       </div>
-      <button
+      <Link href={"/dashboard"}
         type="submit"
         className="w-full bg-black text-white p-2 rounded-lg hover:bg-gray-800 transition"
       >
         Sign in
-      </button>
+      </Link>
     </form>
   );
 }
