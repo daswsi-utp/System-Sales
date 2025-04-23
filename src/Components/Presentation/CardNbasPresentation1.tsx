@@ -2,7 +2,7 @@ import conversation from "@/utils/conversation.png";
 import sales from "@/utils/sales.png";
 import reception from "@/utils/reception.png";
 import controlInventory from "@/utils/controlInventory.jpg";
-import { CardNbas } from "./CardNbas";
+import { CardNbas } from "../Presentation/CardNbas";
 const cardItems = [
     {
         id:1,

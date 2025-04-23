@@ -43,11 +43,11 @@ export default function Registerpage () {
               placeholder="••••••••"
             />
           </div>
-          <button
-            className="w-full bg-black text-white p-2 rounded-lg mb-6 hover:bg-white hover:text-black hover:border hover:border-gray-300"
+          <Link href={"/auth/login"}
+            className="w-full bg-black text-center text-white p-2 rounded-lg mb-6 hover:bg-white hover:text-black hover:border hover:border-gray-300"
           >
             Sign up
-          </button>
+          </Link>
           <button
             className="w-full border border-gray-300 text-md p-2 rounded-lg mb-6 hover:bg-black hover:text-white"
           >

@@ -60,10 +60,14 @@ export default function LoginForm() {
       </div>
       <Link href={"/dashboard"}
         type="submit"
-        className="w-full bg-black text-white p-2 rounded-lg hover:bg-gray-800 transition"
+        className="w-full flex items-center justify-center bg-black text-white p-2 rounded-lg hover:bg-gray-800 transition"
       >
         Sign in
       </Link>
     </form>
   );
-}
+}  
+ 
+ 
+  
+ 
