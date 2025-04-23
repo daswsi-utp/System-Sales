@@ -5,23 +5,23 @@ import OrderForm from './src/components/OrderForm';
 import OrderButtons from './src/components/OrderButtons';
 
 export const metadata: Metadata = {
-  title: 'Order | Management',
-  description: 'View and manage all your business orders',
+  title: 'Inventory | Management',
+  description: 'View and manage all your inventory items',
 };
 
 const orders = [
-  { id: '00001', customer: 'Nathan Smith', total: 'S/ 1400.00', status: 'Pending' },
-  { id: '00002', customer: 'Stephanie Anderson', total: 'S/ 1400.00', status: 'Completed' },
-  { id: '00003', customer: 'Rimon Hammer', total: 'S/ 1400.00', status: 'Cancelled' },
-  { id: '00004', customer: 'Stiven Cruz', total: 'S/ 1400.00', status: 'Completed' },
-  { id: '00005', customer: 'Nicolas Torres', total: 'S/ 1400.00', status: 'Pending' },
-  { id: '00006', customer: 'Jorge Perez', total: 'S/ 1400.00', status: 'Completed' },
-  { id: '00007', customer: 'Pedro Castillo', total: 'S/ 1400.00', status: 'Cancelled' },
-  { id: '00008', customer: 'Alan Romeo', total: 'S/ 1400.00', status: 'Completed' },
-  { id: '00009', customer: 'Nahira Mamani', total: 'S/ 1400.00', status: 'Pending' },
-  { id: '00010', customer: 'Pedro Juarez', total: 'S/ 1400.00', status: 'Cancelled' },
-  { id: '00011', customer: 'Itaro Quilco', total: 'S/ 1400.00', status: 'Pending' },
-  { id: '00012', customer: 'Sebastian Flores', total: 'S/ 1400.00', status: 'Completed' },
+  { id: 'item01', customer: '--.', total: '0', status: 'Pending' },
+  { id: 'item02', customer: '---', total: '0', status: 'Completed' },
+  { id: 'item03', customer: '---', total: '0', status: 'Cancelled' },
+  { id: 'item04', customer: '---', total: '0', status: 'Completed' },
+  { id: 'item05', customer: '---', total: '0', status: 'Pending' },
+  { id: 'item06', customer: '---', total: '0', status: 'Completed' },
+  { id: 'item07', customer: '---', total: '0', status: 'Cancelled' },
+  { id: 'item08', customer: '---', total: '0', status: 'Completed' },
+  { id: 'item09', customer: '---', total: '0', status: 'Pending' },
+  { id: 'item10', customer: '---', total: '0', status: 'Cancelled' },
+  { id: 'item11', customer: '---', total: '0', status: 'Pending' },
+  { id: 'item12', customer: '---', total: '0', status: 'Completed' },
 ];
 
 const statusStyles = {
@@ -37,8 +37,8 @@ export default function OrdersPage() {
 
         <div className="sm:flex sm:items-center sm:justify-between mb-8">
           <div className="mb-4 sm:mb-0">
-            <h1 className="text-2xl md:text-3xl font-bold text-gray-900">Order Management</h1>
-            <p className="mt-1 text-sm text-gray-500">View and manage all your business orders</p>
+            <h1 className="text-2xl md:text-3xl font-bold text-gray-900">Inventory Managment</h1>
+            <p className="mt-1 text-sm text-gray-500">View and manage all your inventory items</p>
           </div>
           <OrderButtons />
         </div>
