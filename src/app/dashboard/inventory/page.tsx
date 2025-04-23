@@ -10,18 +10,18 @@ export const metadata: Metadata = {
 };
 
 const orders = [
-  { id: 'item01', customer: '--.', total: '0', status: 'Pending' },
-  { id: 'item02', customer: '---', total: '0', status: 'Completed' },
-  { id: 'item03', customer: '---', total: '0', status: 'Cancelled' },
-  { id: 'item04', customer: '---', total: '0', status: 'Completed' },
-  { id: 'item05', customer: '---', total: '0', status: 'Pending' },
-  { id: 'item06', customer: '---', total: '0', status: 'Completed' },
-  { id: 'item07', customer: '---', total: '0', status: 'Cancelled' },
-  { id: 'item08', customer: '---', total: '0', status: 'Completed' },
-  { id: 'item09', customer: '---', total: '0', status: 'Pending' },
-  { id: 'item10', customer: '---', total: '0', status: 'Cancelled' },
-  { id: 'item11', customer: '---', total: '0', status: 'Pending' },
-  { id: 'item12', customer: '---', total: '0', status: 'Completed' },
+  { id: 'item01', customer: 'Smartphone – NovaTel X1 Pro', total: '22', status: 'Pending' },
+  { id: 'item02', customer: 'Laptop – ZephyrTech Ultrabook Z5', total: '10', status: 'Completed' },
+  { id: 'item03', customer: 'Smartwatch – ChronaWear Pulse 3', total: '13', status: 'Cancelled' },
+  { id: 'item04', customer: 'Tablet – LuminaTab A8', total: '15', status: 'Completed' },
+  { id: 'item05', customer: 'Auriculares inalámbricos – EchoBeats AirVibe', total: '25', status: 'Pending' },
+  { id: 'item06', customer: 'Televisor inteligente – VistaraView Quantum 55', total: '20', status: 'Completed' },
+  { id: 'item07', customer: 'Cámara digital – PixelForge SnapX100', total: '20', status: 'Cancelled' },
+  { id: 'item08', customer: 'Consola de videojuegos – PlayCore Zeta', total: '12', status: 'Completed' },
+  { id: 'item09', customer: 'Altavoz inteligente – VoxAura HomeOne', total: '11', status: 'Pending' },
+  { id: 'item10', customer: 'Proyector portátil – GlideBeam P7', total: '5', status: 'Cancelled' },
+  { id: 'item11', customer: 'Dron con cámara – SkyNova HawkVision', total: '8', status: 'Pending' },
+  { id: 'item12', customer: 'Router Wi-Fi – NexLink StreamHub R9', total: '13', status: 'Completed' },
 ];
 
 const statusStyles = {
@@ -34,7 +34,6 @@ export default function OrdersPage() {
   return (
     <div className="px-4 sm:px-6 lg:px-8 py-8">
       <div className="max-w-7xl mx-auto">
-
         <div className="sm:flex sm:items-center sm:justify-between mb-8">
           <div className="mb-4 sm:mb-0">
             <h1 className="text-2xl md:text-3xl font-bold text-gray-900">Inventory Managment</h1>
