@@ -6,5 +6,4 @@ export type SidebarItemsProps ={
         icon:LucideIcon,
         href:string,
     },
-    key:string,
 }

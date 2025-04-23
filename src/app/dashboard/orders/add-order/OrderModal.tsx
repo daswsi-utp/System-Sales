@@ -75,7 +75,7 @@ const OrderModal = ({ onClose }: OrderModalProps) => {
 
   const clearOrder = () => {
     setSelectedStaff("");
-    setOrderDate(new Date().toISOString().split('T')[0]);
+    setOrderDate(new Date().toISOString().split('T')[0]);///
     setSelectedProducts([]);
     setSearchTerm("");
   };

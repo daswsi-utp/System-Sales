@@ -8,7 +8,7 @@ export default function OrderDetailPage() {
   const orderId = searchParams.get('id');
   
   const order = {
-    id: orderId || '00000',
+    id: orderId || '00001',
     customer: 'Nathan Smith',
     date: '14 Jun 2023, 10:30 AM',
     items: [
@@ -18,6 +18,7 @@ export default function OrderDetailPage() {
     total: 'S/ 880.00',
     status: 'Pending'
   };
+  
 
   if (!orderId) {
     return (
@@ -64,7 +65,7 @@ export default function OrderDetailPage() {
       </div>
 
       <div className="flex justify-between items-center border-t pt-4">
-        <Link href="/orders" className="text-blue-600 hover:underline">
+        <Link href="/dashboard/orders" className="text-blue-600 hover:underline">
           ← Back to orders
         </Link>
         <p className="text-lg font-bold">Total: {order.total}</p>

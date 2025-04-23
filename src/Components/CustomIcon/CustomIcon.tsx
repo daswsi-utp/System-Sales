@@ -1,6 +1,4 @@
-import { Icon } from 'lucide-react';
 import { CustomIconProps } from './CustomIcon.types';
-
 
 export const CustomIcon = (props:CustomIconProps) => {
     const{icon : Icon} =props;

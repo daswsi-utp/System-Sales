@@ -31,17 +31,17 @@ export default function Home() {
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link href="#home" className={`${heading.className, "sans-serif"} menu-scroll text-gray-600 hover:text-primary inline-flex items-center justify-center text-xl dark:text-white dark:hover:text-blue-400`}>
+                                        <Link href="#sales" className={`${heading.className, "sans-serif"} menu-scroll text-gray-600 hover:text-primary inline-flex items-center justify-center text-xl dark:text-white dark:hover:text-blue-400`}>
                                             Sales
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link href="#home" className={`${heading.className, "sans-serif"} menu-scroll text-gray-600 hover:text-primary inline-flex items-center justify-center text-xl dark:text-white dark:hover:text-blue-400`}>
+                                        <Link href="#inventory" className={`${heading.className, "sans-serif"} menu-scroll text-gray-600 hover:text-primary inline-flex items-center justify-center text-xl dark:text-white dark:hover:text-blue-400`}>
                                             Inventory
                                         </Link>
                                     </li>
                                     <li>
-                                        <Link href="#home" className={`${heading.className, "sans-serif"} menu-scroll text-gray-600 hover:text-primary inline-flex items-center justify-center text-xl dark:text-white dark:hover:text-blue-400`}>
+                                        <Link href="#about" className={`${heading.className, "sans-serif"} menu-scroll text-gray-600 hover:text-primary inline-flex items-center justify-center text-xl dark:text-white dark:hover:text-blue-400`}>
                                             About
                                         </Link>
                                     </li>
@@ -63,7 +63,7 @@ export default function Home() {
                     </div>
                 </div>
             </header>
-            <section className="relative z-40 overflow-hidden py-20 sm:py-28 lg:py-32 bg-amber-300">
+            <section id="home" className="relative z-40 overflow-hidden py-20 sm:py-28 lg:py-32 bg-amber-300">
                 <div className="px-4 mx-auto max-w-7xl">
                     <div className="flex flex-col lg:flex-row items-center justify-between gap-10 lg:gap-16">
                         
@@ -95,9 +95,9 @@ export default function Home() {
                     </div>
                 </div>
             </section>
-            <section className="flex flex-row justify-center items-center pt-14 sm:pt-20 lg:pt-[130px]"><CardNbasPresentationItem />
+            <section id="sales" className="flex flex-row justify-center items-center pt-14 sm:pt-20 lg:pt-[130px]"><CardNbasPresentationItem />
             </section>
-            <section className="relative z-40 overflow-hidden py-20 sm:py-28 lg:py-32 bg-amber-300">
+            <section id="inventory"className="relative z-40 overflow-hidden py-20 sm:py-28 lg:py-32 bg-amber-300">
                 <div className="px-4 mx-auto max-w-7xl">
                     <div className="flex flex-col lg:flex-row items-center justify-between gap-10 lg:gap-16">
                         
@@ -123,7 +123,7 @@ export default function Home() {
                     </div>
                 </div>
             </section>
-            <section className="relative z-40 overflow-hidden py-20 sm:py-28 lg:py-32">
+            <section id="about" className="relative z-40 overflow-hidden py-20 sm:py-28 lg:py-32">
                 <div className="px-4 mx-auto max-w-7xl">
                     <div className="flex flex-col lg:flex-row items-center justify-between gap-10 lg:gap-16">
                         
