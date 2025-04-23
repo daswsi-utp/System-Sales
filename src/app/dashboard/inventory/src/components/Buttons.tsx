@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import OrderModal from './OrderModal';
+import OrderModal from './InventoryModal';
 
 export default function OrderButtons() {
   const [isModalOpen, setIsModalOpen] = useState(false);
