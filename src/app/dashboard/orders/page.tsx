@@ -55,7 +55,7 @@ export default function OrdersPage({
           <OrderButtons />
         </div>
 
-        <OrderForm initialSearch={searchParams.search} />
+        <OrderForm />     
 
         <div className="mt-8 bg-white shadow overflow-hidden rounded-lg">
           <div className="overflow-x-auto">
@@ -81,10 +81,10 @@ export default function OrdersPage({
                   <tr key={`${order.id}-${order.customer}`} className="hover:bg-gray-50 transition-colors duration-150">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <Link
-                        href={`/dashboard/orders/${order.id}`}  // Cambia esta línea
+                        href={`/dashboard/orders/${order.id}  `} 
                         className="text-blue-600 hover:text-blue-800 hover:underline font-medium"
                       >
-                        #{order.id}
+                        #{order.id} 
                       </Link>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
