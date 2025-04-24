@@ -47,28 +47,19 @@ The main objective of the system is to improve operational efficiency, reduce hu
 * **FRONTED**: Nest Js
 * **BACKEND**: Spring - Boot
 * **DATABASE**: MySQL
-* **LIBRARIES**: RELLENEN ESTO XD
+* **LIBRARIES**: LUCIDE-REACT, TAILWIND, REACT-ICONS
 * **VERSION CONTROLER**: GitHub
-* **OTHER TOOLS**:
+* **OTHER TOOLS**: MORE LATER
 
 ## REQUERIMENTS
 ### FUNCTIONAL REQUERIMENTS
-* **RQF 01 DDDDDDDDD**: *****************************
-* **RQF 02 DDDDDDDDD**: *****************************
-* **RQF 03 DDDDDDDDD**: *****************************
-* **RQF 04 DDDDDDDDD**: *****************************
-* **RQF 05 DDDDDDDDD**: *****************************
-* **RQF 06 DDDDDDDDD**: *****************************
-* **RQF 07 DDDDDDDDD**: *****************************
-* **RQF 08 DDDDDDDDD**: *****************************
+* **RQF 01 LOGIN**: The system must allow registered users to log in using their username and password.
+* **RQF 02 INVENTORY MODULE**: The system must allow the user to register new products in the inventory, specifying their main characteristics.
+* **RQF 03 ORDER MODULE**: The system must allow users to generate a sales order associated with a customer, including the selected products and their quantities.
+* **RQF 04 REPORT MODULE**: The system should allow the user to generate detailed reports of sales made over a specific time period or other filters.
+* **RQF 05 SALE MODULE**: The system must allow users to record direct sales at the point of sale, associating the products sold, applying discounts if applicable, and generating a receipt.
+
   
-### FUNCTIONAL REQUERIMENTS
-* **NRQF 01 DDDDDDDDD**: *****************************
-* **NRQF 02 DDDDDDDDD**: *****************************
-* **NRQF 03 DDDDDDDDD**: *****************************
-* **NRQF 04 DDDDDDDDD**: *****************************
-* **NRQF 05 DDDDDDDDD**: *****************************
-* **NRQF 06 DDDDDDDDD**: *****************************
 
 
 |                             📋 Catalog of Requirements                              |
@@ -76,12 +67,44 @@ The main objective of the system is to improve operational efficiency, reduce hu
 
 | No.  | Description                                           | Version |
 |------|-------------------------------------------------------|---------|
-| RF01 | ***ffffffffffffffffffffffff***                        | **\***  |
-| RF02 | ***ffffffffffffffffffffffffffffffffffffffffffff***    | **\***  |
-| RF03 | ***ffffffffffffffffffffffffffffffffffffffffffffffff***| **\***  |
-| RF04 | ***fffffffffffffffffffffffffffffffffffffffffff***     | **\***  |
-| RF05 | ***ffffffffffffffffffffffffffffffffffff***            | **\***  |
-| RF06 | ***ffffffffffffffffffffff***                          | **\***  |
-| RF07 | ***fffffffffffffffffffffffff***                       | **\***  |
-| RF08 | ***fffffffffffffffffffffff***                         | **\***  |
+| RF01 | ***LOGIN***                        | **1**  |
+| RF02 | ***INVENTORY MODULE***    | **1**  |
+| RF03 | ***ORDER MODULE***| **1**  |
+| RF04 | ***REPORT MODULE***     | **1**  |
+| RF05 | ***SALE MODULE***            | **1**  |
 
+
+
+#### **_RFO1 Specifications Table_**
+
+| **Login** |
+|-----------|
+
+### **Description**
+The system must provide a secure authentication mechanism through a login form that requests user credentials (username and password).
+This process will validate the user's identity and, depending on the assigned role (e.g., administrator or seller), redirect them to the appropriate environment within the system.
+
+---
+
+### Activities developed by:
+
+| **System**                           | **User**                             |
+|--------------------------------------|-----------------------------------------|
+| 2. The system receives the user's request and displays the corresponding window. | 1. The user accesses the main login page.         |
+| 4. The system validates the data entered by the user.   | 3. The user fills in the corresponding fields and presses the "Login" button.               |
+| 5. The system redirects the user to the dashboard page. | 6. The user views the dashboard". |
+
+Anexxes
+
+
+
+
+
+
+### NO FUNCTIONAL REQUERIMENTS
+* **NRQF 01 DDDDDDDDD**: *****************************
+* **NRQF 02 DDDDDDDDD**: *****************************
+* **NRQF 03 DDDDDDDDD**: *****************************
+* **NRQF 04 DDDDDDDDD**: *****************************
+* **NRQF 05 DDDDDDDDD**: *****************************
+* **NRQF 06 DDDDDDDDD**: *****************************
