@@ -70,8 +70,6 @@ export const HeaderPresentationPage = () => {
           </button>
         </div>
       </div>
-
-      {/* Menú móvil - Botones */}
       <div className={`lg:hidden px-5 pb-4 transition-all duration-300 ${
         isOpen ? "opacity-100 visible" : "opacity-0 invisible h-0"
       }`}>
