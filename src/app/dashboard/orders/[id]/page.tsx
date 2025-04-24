@@ -1,12 +1,32 @@
 'use client';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
+import { useState } from 'react';
+
+type OrderItem = {
+  name: string;
+  price: string;
+  quantity: number;
+};
+
+type OrderStatus = 'Completed' | 'Pending' | 'Cancelled';
+
+type Order = {
+  id: string;
+  customer: string;
+  date: string;
+  items: OrderItem[];
+  total: string;
+  status: OrderStatus;
+};
+
+
 
 export default function OrderDetailPage() {
   const params = useParams();
   const orderId = params.id as string;
 
-  const orders = [
+  const [orders, setOrders] = useState<Order[]>([
     {
       id: '00001',
       customer: 'Nathan Smith',
@@ -148,9 +168,17 @@ export default function OrderDetailPage() {
       total: 'S/ 1400.00',
       status: 'Completed'
     }
-  ];
+  ]);
+
 
   const order = orders.find(order => order.id === orderId);
+
+  const handleStatusChange = (newStatus: OrderStatus) => {
+    setOrders(orders.map(order =>
+      order.id === orderId ? { ...order, status: newStatus } : order
+    ));
+    // Future backend code xd
+  };
 
   if (!order) {
     return (
@@ -170,13 +198,35 @@ export default function OrderDetailPage() {
           <h1 className="text-2xl font-bold">Order #{order.id}</h1>
           <p className="text-gray-500">{order.date}</p>
         </div>
-        <span className={`px-3 py-1 rounded-full text-sm ${
-          order.status === 'Completed' ? 'bg-green-100 text-green-800' :
-          order.status === 'Cancelled' ? 'bg-red-100 text-red-800' :
-          'bg-yellow-100 text-yellow-800'
-        }`}>
-          {order.status}
-        </span>
+        <div className="flex space-x-2">
+          <button
+            onClick={() => handleStatusChange('Completed')}
+            className={`px-3 py-1 rounded-full text-sm ${order.status === 'Completed'
+                ? 'bg-green-600 text-white'
+                : 'bg-green-100 text-green-800 hover:bg-green-200'
+              }`}
+          >
+            Completed
+          </button>
+          <button
+            onClick={() => handleStatusChange('Pending')}
+            className={`px-3 py-1 rounded-full text-sm ${order.status === 'Pending'
+                ? 'bg-yellow-600 text-white'
+                : 'bg-yellow-100 text-yellow-800 hover:bg-yellow-200'
+              }`}
+          >
+            Pending
+          </button>
+          <button
+            onClick={() => handleStatusChange('Cancelled')}
+            className={`px-3 py-1 rounded-full text-sm ${order.status === 'Cancelled'
+                ? 'bg-red-600 text-white'
+                : 'bg-red-100 text-red-800 hover:bg-red-200'
+              }`}
+          >
+            Cancelled
+          </button>
+        </div>
       </div>
 
       <div className="mb-8">
