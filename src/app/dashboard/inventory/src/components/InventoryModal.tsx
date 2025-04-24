@@ -4,10 +4,11 @@ import { FiX, FiPlus, FiMinus, FiShoppingCart, FiUser, FiSearch, FiCalendar, FiT
 
 interface Product {
   id: number;
-  category: string;
   name: string;
-  pricePEN: number;
+  category: string;
   stock: number;
+  pricePEN: number;
+  
 }
 
 interface OrderModalProps {
