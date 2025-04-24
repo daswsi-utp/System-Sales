@@ -3,6 +3,7 @@ import { Input } from '../ui/input';
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from '@/Components/ui/sheet'; 
 import { SidebarRoutes } from '../SidebarRoutes/SidebarRoutes';
 import { Avatar, AvatarFallback, AvatarImage } from '@radix-ui/react-avatar';
+import Link from 'next/link';
 
 export const Navbar = () => {
   return (
@@ -21,11 +22,15 @@ export const Navbar = () => {
         <Search strokeWidth={1} className="absolute top-2 right-2" />
       </div>
       <div className="flex gap-x-2 items-center">
-        <p>Jhon Doe</p>
-        <Avatar className='size-8 '>
-          <AvatarImage src="https://github.com/shadcn.png" className='rounded-2xl' />
-          <AvatarFallback>CN</AvatarFallback>
-        </Avatar>
+      <Link href="/dashboard/account">
+          <div className="flex gap-x-2 items-center cursor-pointer">
+            <p>Jhon Doe</p>
+            <Avatar className='size-8 '>
+              <AvatarImage src="https://github.com/shadcn.png" className='rounded-2xl' />
+              <AvatarFallback>CN</AvatarFallback>
+            </Avatar>
+          </div>
+        </Link>
       </div>
     </div>
   );

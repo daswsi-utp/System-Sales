@@ -4,33 +4,28 @@ interface Props{
     image:string | StaticImageData,
     description:string;
 }
-export const CardNbas = ({title,image,description}:Props) => {
+export const CardNbas = ({title, image, description}: Props) => {
     return (
-        <>
-            <div
-                className="relative mx-4 mt-4 overflow-hidden text-white shadow-lg rounded-xl bg-blue-gray-500 bg-clip-border shadow-blue-gray-500/40 gap-2">
-                <Image 
-                    src={image}
-                    height={200}
-                    width={1000}
-                    alt="Picture of the information"
-                    title="" 
-                    priority={false}/>
-                <div
-                    className="absolute inset-0 w-full h-full to-bg-black-10 bg-gradient-to-tr from-transparent via-transparent to-black/60">
-                </div>
-
-            </div>
-            <div className="p-6">
-                <div className="flex items-center justify-between mb-3">
-                    <h5 className="items-center block font-sans text-xl antialiased font-medium leading-snug tracking-normal text-blue-gray-900 text-center">
-                        {title}
-                    </h5>
-                </div>
-                <p className="block font-sans text-base antialiased font-light leading-relaxed text-gray-700 text-justify">
-                    {description}
-                </p>
-            </div>
-        </>
-    )
-}
+      <div className="flex flex-col h-full bg-white rounded-xl shadow-lg dark:bg-gray-800">
+        <div className="relative h-48 sm:h-56 overflow-hidden rounded-t-xl">
+          <Image 
+            src={image}
+            fill
+            alt={title}
+            className="object-cover"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"/>
+        </div>
+        
+        <div className="p-4 sm:p-6 flex-1">
+          <h5 className="text-lg sm:text-xl font-semibold mb-3 text-center text-gray-800 dark:text-white">
+            {title}
+          </h5>
+          <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 text-justify leading-relaxed">
+            {description}
+          </p>
+        </div>
+      </div>
+    );
+  };
