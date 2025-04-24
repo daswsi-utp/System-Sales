@@ -5,7 +5,6 @@ import googleIcon from "@/utils/google.svg";
 
 export default function SocialButtons() {
   const handleGoogleLogin = () => {
-    console.log("Iniciando con Google"); 
   };
 
   return (
