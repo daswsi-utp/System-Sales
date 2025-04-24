@@ -1,7 +1,6 @@
 import { Menu, Search } from 'lucide-react';
 import { Input } from '../ui/input';
-import { Sheet, SheetContent, SheetTitle, SheetTrigger } from '@/Components/ui/sheet'; // Asegúrate de que el import esté bien
-import { FaUser } from 'react-icons/fa';
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from '@/Components/ui/sheet'; 
 import { SidebarRoutes } from '../SidebarRoutes/SidebarRoutes';
 import { Avatar, AvatarFallback, AvatarImage } from '@radix-ui/react-avatar';
 

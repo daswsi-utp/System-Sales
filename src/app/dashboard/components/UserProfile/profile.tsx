@@ -1,12 +1,6 @@
-"use client"
+
 import { Avatar, AvatarFallback, AvatarImage } from '@radix-ui/react-avatar';
-import { useState } from 'react';
-
 export const Profile = () => {
-  const [editing, setEditing] = useState(false);
-
-  const toggleEdit = () => setEditing(!editing);
-
   return (
     <div className=" bg-white shadow-lg rounded-lg p-6  mt-6 mx-auto max-w-8xl px-4 sm:px-6 lg:px-8">
       <div className="flex items-center p-5 mb-6 border border-gray-200 rounded-2xl dark:border-gray-800 lg:p-6">
