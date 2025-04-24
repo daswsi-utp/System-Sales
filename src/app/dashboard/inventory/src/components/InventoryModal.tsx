@@ -89,7 +89,7 @@ const OrderModal = ({ onClose }: OrderModalProps) => {
  
         <div className="flex justify-between items-center border-b p-4 bg-gray-50">
           <div className="flex items-center space-x-3">
-            <h2 className="text-xl font-bold text-gray-800">NEW ORDER</h2>
+            <h2 className="text-xl font-bold text-gray-800">INVENTORY</h2>
             <span className="px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded-full">
               New
             </span>
@@ -158,7 +158,9 @@ const OrderModal = ({ onClose }: OrderModalProps) => {
                 <table className="w-full divide-y divide-gray-200">
                   <thead className="bg-gray-50">
                     <tr>
+                    <th className="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Id</th>
                       <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product</th>
+                      <th className="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
                       <th className="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Stock</th>
                       <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Price (PEN)</th>
                       <th className="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Shares</th>
@@ -173,7 +175,13 @@ const OrderModal = ({ onClose }: OrderModalProps) => {
                         return (
                           <tr key={component.id} className="hover:bg-gray-50">
                             <td className="px-4 py-3 whitespace-nowrap">
+                              <div className="font-medium text-gray-900">{component.id}</div>
+                            </td>
+                            <td className="px-4 py-3 whitespace-nowrap">
                               <div className="font-medium text-gray-900">{component.name}</div>
+                              <div className="text-xs text-gray-500">{component.category}</div>
+                            </td>
+                            <td className="px-4 py-3 whitespace-nowrap">
                               <div className="text-xs text-gray-500">{component.category}</div>
                             </td>
                             <td className={`px-4 py-3 text-center whitespace-nowrap ${

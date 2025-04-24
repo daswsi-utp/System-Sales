@@ -12,7 +12,7 @@ export default function OrderButtons() {
         onClick={() => setIsModalOpen(true)}
         className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
       >
-        + New Order
+        + Add items
       </button>
       
       {isModalOpen && <OrderModal onClose={() => setIsModalOpen(false)} />}
