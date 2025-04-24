@@ -1,5 +1,5 @@
 'use client'
-import { StaticImageData } from "next/image";
+import { StaticImageData } from "next/image"; 
 import { useRouter } from "next/navigation"; 
 import Image from "next/image";
 
@@ -13,7 +13,6 @@ export const CardInventoryTypes = ({ title, img, category }: CardInventoryProps)
   const router = useRouter();  
 
   const navigateToCategory = () => {
-    console.log(category)
     router.push(`/dashboard/inventory/${category}`);
   };
 
@@ -23,6 +22,7 @@ export const CardInventoryTypes = ({ title, img, category }: CardInventoryProps)
         <Image
           src={img}
           alt={title}
+          priority
           fill
           className="rounded-t-lg object-cover"
           sizes="(max-width: 768px) 100vw, 50vw"

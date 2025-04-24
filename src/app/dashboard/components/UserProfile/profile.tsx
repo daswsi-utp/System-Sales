@@ -24,7 +24,7 @@ export const Profile = () => {
         </div>
       </div>
       <div className="mt-6 p-5 mb-6 border border-gray-200 rounded-2xl dark:border-gray-800 lg:p-6">
-        <h3 className="text-xl font-semibold text-gray-800">Password reseat</h3>
+        <h3 className="text-xl font-semibold text-gray-800">Address</h3>
         <div className="mt-4 space-y-2 text-[#79808a] rounded-2xl p-2  ">
           <p ><strong>Country:</strong> United States</p>
           <p><strong>City/State:</strong> Arizona, United States</p>
@@ -33,7 +33,7 @@ export const Profile = () => {
         </div>
       </div>
       <div className="mt-6 p-5 mb-6 border border-gray-200 rounded-2xl dark:border-gray-800 lg:p-6">
-        <h3 className="text-xl font-semibold text-gray-800">Address</h3>
+        <h3 className="text-xl font-semibold text-gray-800">Password reseat</h3>
         <div className="mt-4 space-y-2 text-[#79808a] rounded-2xl p-2  ">
           <p ><strong>Country:</strong> United States</p>
           <p><strong>City/State:</strong> Arizona, United States</p>

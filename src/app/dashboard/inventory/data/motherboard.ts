@@ -1,4 +1,4 @@
-export const motherboard = [
+export const motherboard  = [
     {
       id: 1,
       name: "ASUS ROG Strix Z690-E",
