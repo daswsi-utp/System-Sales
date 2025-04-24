@@ -1,9 +1,4 @@
-<<<<<<< HEAD
 import { CardInventory } from "../components/CardInventory/CardInventory";
-=======
-
-import { CardInventory } from "./components/CardInventory";
->>>>>>> origin/main
 
 export default function Inventorypage  ()  {
   return (
