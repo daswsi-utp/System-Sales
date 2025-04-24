@@ -7,6 +7,7 @@ import { power } from "@/app/dashboard/inventory/data/power";
 import { processors } from "@/app/dashboard/inventory/data/processors";
 import { storage } from "@/app/dashboard/inventory/data/storage";
 import { CiEdit } from "react-icons/ci";
+import SalesModal  from '../components/SalesModal';
 interface Product {
     id: number;
     name: string;
@@ -55,7 +56,7 @@ export default async function CategoryPage({
   const products = await getData(params.category);
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-      <div className=" flex pb-4 bg-white dark:bg-gray-900 p-4  ">
+      <div className=" flex pb-4 bg-white dark:bg-gray-900 p-4 justify-between ">
         <label htmlFor="table-search" className="sr-only">Search</label>
         <div className="relative mt-1">
           <input
@@ -65,6 +66,9 @@ export default async function CategoryPage({
             placeholder="Search for items"
           />
         </div>
+        <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+          Add to order
+        </button>
       </div>
       <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -102,6 +106,7 @@ export default async function CategoryPage({
               <td className="px-6 py-4">{product.stock}</td>
               <td className="px-6 py-4">${product.price}</td>
               <td className="px-6 py-4 cursor-pointer"><CiEdit /> </td>
+              <td></td>
             </tr>
           ))}
         </tbody>
