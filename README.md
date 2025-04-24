@@ -47,41 +47,103 @@ The main objective of the system is to improve operational efficiency, reduce hu
 * **FRONTED**: Nest Js
 * **BACKEND**: Spring - Boot
 * **DATABASE**: MySQL
-* **LIBRARIES**: RELLENEN ESTO XD
+* **LIBRARIES**: LUCIDE-REACT, TAILWIND, REACT-ICONS
 * **VERSION CONTROLER**: GitHub
-* **OTHER TOOLS**:
+* **OTHER TOOLS**: MORE LATER
 
 ## REQUERIMENTS
 ### FUNCTIONAL REQUERIMENTS
-* **RQF 01 DDDDDDDDD**: *****************************
-* **RQF 02 DDDDDDDDD**: *****************************
-* **RQF 03 DDDDDDDDD**: *****************************
-* **RQF 04 DDDDDDDDD**: *****************************
-* **RQF 05 DDDDDDDDD**: *****************************
-* **RQF 06 DDDDDDDDD**: *****************************
-* **RQF 07 DDDDDDDDD**: *****************************
-* **RQF 08 DDDDDDDDD**: *****************************
-  
-### FUNCTIONAL REQUERIMENTS
-* **NRQF 01 DDDDDDDDD**: *****************************
-* **NRQF 02 DDDDDDDDD**: *****************************
-* **NRQF 03 DDDDDDDDD**: *****************************
-* **NRQF 04 DDDDDDDDD**: *****************************
-* **NRQF 05 DDDDDDDDD**: *****************************
-* **NRQF 06 DDDDDDDDD**: *****************************
+* **RQF 01 Employee can search by order id, order name**
+* **RQF 02 The employee can view the order by order id**  
+* **RQF 03 Employee can select the status (complete, pending, cancelled) of the order.** 
+* **RQF 04 Employee can add a new order for the store.**
+* **RQF 05 The employee can select his name to place the order.**
+* **RQF 06 The employee can select a date for the order to be fulfilled.**
+* **RQF 07 The employee can search by name for the component he/she wants to order.**
+* **RQF 08 The employee can delete his order in case it has been cancelled.**
+* **RQF 09 The employee can select a category.**
+* **RQF 10 The employee can search by product name.**
+* **RQF 11 The employee can edit each product he/she chooses.**
+* **RQF 12 Employee can view their personal information, address and password.**
+* **RQF 13 The employee can edit his personal information, address and password.**
+* **RQF 14 The user must be able to visualize the amount of sales made each month and 6 months.**
+* **RQF 15 The user can visualize the top 1 of sales in graphic cards.**
+* **RQF 16 The user can view the current stock quantity.**
+* **RQF 17 The user can visualize the sales of processors from the last 7 days to 3 months.**
+* **RQF 18 The user can visualize the current top employees.**
+* **RQF 19 Search orders by ID or name.**
+* **RQF 20 View order details by ID.**
+* **RQF 21 Update order status (complete/pending/cancelled).**
+* **RQF 22 Create new order (with employee, date and components).**
+* **RQF 23 Delete order if canceled.**
+* **RQF 24 Filter products by category or name.**
+* **RQF 25 Edit selected product information.**
+* **RQF 26 View and edit personal information (data, address, password).**
+* **RQF 27 Monthly and semi-annual sales.**
+* **RQF 28 View Top 1 graphics cards sold.**
+* **RQF 29 View current stock in inventory.**
+* **RQF 30 View processor sales (7 days to 3 months).**
+* **RQF 31 View Top employees (metrics to be defined).**
+* **RQF 32 The employee can view different parameters in floating cards (cash sales, card sales, total sales).**
+* **RQF 33 The employee can filter sales by start and end date..**
+* **RQF 34 The employee can filter sales by payment method.**
+* **RQF 35 The employee can filter sales by salesperson.**
+* **RQF 36 The employee can filter sales by status (paid, pending).**
+* **RQF 37 The employee can view a table with all sales.**
+* **RQF 38 The employee can download an invoice corresponding to a sale.**
+* **RQF 39 The employee can export a report based on the contents of the sales table.**
+
+# 📋 Catalog of Requirements
+
+| **No.**   | **Description**                                                                                   | **Version** |
+|-----------|---------------------------------------------------------------------------------------------------|-------------|
+| **RQF 01** | Employee can search by **Order ID** or **Order Name**.                                           | 1           |
+| **RQF 02** | The employee can **view the order by Order ID**.                                                 | 1           |
+| **RQF 03** | Employee can **select the status** (complete, pending, cancelled) of the order.                  | 1           |
+| **RQF 04** | Employee can **add a new order** for the store.                                                  | 1           |
+| **RQF 05** | The employee can **select their name** to place the order.                                       | 1           |
+| **RQF 06** | The employee can **select a date** for the order to be fulfilled.                                | 1           |
+| **RQF 07** | The employee can **search by name** for the component they want to order.                        | 1           |
+| **RQF 08** | The employee can **delete their order** if it has been cancelled.                                | 1           |
+| **RQF 09** | The employee can **select a category** for the product.                                          | 1           |
+| **RQF 10** | The employee can **search by product name**.                                                     | 1           |
+| **RQF 11** | The employee can **edit each product** they choose.                                              | 1           |
+| **RQF 12** | Employee can view their **personal information, address, and password**.                         | 1           |
+| **RQF 13** | The employee can **edit their personal information, address, and password**.                     | 1           |
+| **RQF 14** | The user must be able to **visualize the amount of sales** made each month and 6 months.         | 1           |
+| **RQF 15** | The user can **visualize the top 1 of sales in graphic cards**.                                  | 1           |
+| **RQF 16** | The user can **view the current stock quantity**.                                                | 1           |
+| **RQF 17** | The user can **visualize the sales of processors** from the last 7 days to 3 months.             | 1           |
+| **RQF 18** | The user can **visualize the current top employees**.                                            | 1           |
+| **RQF 19** | **Search orders by ID or name**.                                                                 | 1           |
+| **RQF 20** | **View order details by ID**.                                                                    | 1           |
+| **RQF 21** | **Update order status** (complete/pending/cancelled).                                            | 1           |
+| **RQF 22** | **Create new order** (with employee, date, and components).                                      | 1           |
+| **RQF 23** | **Delete order if cancelled**.                                                                   | 1           |
+| **RQF 24** | **Filter products by category or name**.                                                         | 1           |
+| **RQF 25** | **Edit selected product information**.                                                           | 1           |
+| **RQF 26** | **View and edit personal information** (data, address, password).                                | 1           |
+| **RQF 27** | **Monthly and semi-annual sales**.                                                               | 1           |
+| **RQF 28** | **View Top 1 graphics cards sold**.                                                              | 1           |
+| **RQF 29** | **View current stock in inventory**.                                                             | 1           |
+| **RQF 30** | **View processor sales (7 days to 3 months)**.                                                   | 1           |
+| **RQF 31** | **View Top employees** (metrics to be defined).                                                  | 1           |
+| **RQF 32** | The employee can **view different parameters in floating cards** (cash sales, card sales, total sales). | 1     |
+| **RQF 33** | The employee can **filter sales by start and end date**.                                         | 1           |
+| **RQF 34** | The employee can **filter sales by payment method**.                                             | 1           |
+| **RQF 35** | The employee can **filter sales by salesperson**.                                                | 1           |
+| **RQF 36** | The employee can **filter sales by status** (paid, pending).                                     | 1           |
+| **RQF 37** | The employee can **view a table with all sales**.                                                | 1           |
+| **RQF 38** | The employee can **download an invoice** corresponding to a sale.                                | 1           |
+| **RQF 39** | The employee can **export a report** based on the contents of the sales table.                   | 1           |
 
 
-|                             📋 Catalog of Requirements                              |
-|--------------------------------------------------------------------------------------|
 
-| No.  | Description                                           | Version |
-|------|-------------------------------------------------------|---------|
-| RF01 | ***ffffffffffffffffffffffff***                        | **\***  |
-| RF02 | ***ffffffffffffffffffffffffffffffffffffffffffff***    | **\***  |
-| RF03 | ***ffffffffffffffffffffffffffffffffffffffffffffffff***| **\***  |
-| RF04 | ***fffffffffffffffffffffffffffffffffffffffffff***     | **\***  |
-| RF05 | ***ffffffffffffffffffffffffffffffffffff***            | **\***  |
-| RF06 | ***ffffffffffffffffffffff***                          | **\***  |
-| RF07 | ***fffffffffffffffffffffffff***                       | **\***  |
-| RF08 | ***fffffffffffffffffffffff***                         | **\***  |
+
+### NO FUNCTIONAL REQUERIMENTS
+* **NRQF 01 Security**
+* **NRQF 02 Available** 
+* **NRQF 03 Scalability** 
+* **NRQF 04 Portability** 
+* **NRQF 05 Maintainability** 
 
