@@ -1,3 +1,11 @@
+Members-Sales:
+* Clavijo Parari, Jack User:  jackutp
+* Moroco Rios, Kenyi Italo User: KenjiPlatanazo
+* Neyra Palomino, Yody User: YordyNeyraxyz
+* Palomino Contreras, Ricardo User: Richar40k
+* Quispe Aguilar, Imanol User: Im3Im3
+
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
