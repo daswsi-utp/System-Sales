@@ -1,3 +1,4 @@
+
 import { Suspense } from 'react';
 import { cabinets } from '@/app/dashboard/inventory/data/cabinets';
 import { graphics } from '@/app/dashboard/inventory/data/graphics';
@@ -17,9 +18,6 @@ interface Product {
   price: number;
 }
 
-interface CategoryPageProps {
-  params: { category: string };  
-}
 
 export async function generateStaticParams() {
   return [
@@ -136,3 +134,4 @@ function Loading() {
     </div>
   );
 }
+
