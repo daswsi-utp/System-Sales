@@ -3,7 +3,7 @@
 
 import React from 'react';
 import clsx from 'clsx';
-
+import { FileText } from 'lucide-react';
 const data = [
   // Agrega los datos de la tabla aquí
   {
@@ -97,6 +97,7 @@ const data = [
     status: 'Pending',
     cashier: 'Lucía V.',
   },
+  
   {
     id: '#0010',
     customer: 'Cristina Díaz',
@@ -125,6 +126,7 @@ export default function ReportTable() {
               <th className="px-4 py-2 text-left">Payment</th>
               <th className="px-4 py-2 text-left">Status</th>
               <th className="px-4 py-2 text-left">Cashier</th>
+              <th className="px-4 py-2 text-left">Actions</th> {/* Nueva columna para el ícono */}
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200">
@@ -161,6 +163,16 @@ export default function ReportTable() {
                 </td>
 
                 <td className="px-4 py-2">{item.cashier}</td>
+
+                {/* Columna de acciones con el ícono de PDF */}
+                <td className="px-4 py-2 text-center">
+                  <button
+                    className="p-2 bg-neutral-500 text-white rounded-full hover:bg-neutral-400"
+                    title="Generate PDF" // Tooltip opcional para el botón
+                  >
+                    <FileText size={20} /> {/* Ícono de PDF */}
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>
@@ -169,8 +181,8 @@ export default function ReportTable() {
 
       {/* Simple pagination (solo botón de Next) */}
       <div className="mt-6 text-right">
-        <button className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
-          Next →
+        <button className="px-6 py-2 bg-blue-900 text-white rounded-lg hover:bg-blue-800">
+          Next → 
         </button>
       </div>
     </div>
