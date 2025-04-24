@@ -16,7 +16,7 @@ interface OrderModalProps {
 
 const OrderModal = ({ onClose }: OrderModalProps) => {
   const salesStaff = [
-    { id: 1, name: "Carlos Mendoza" },
+    { id: 1, name: "Panchiro manchiro" },
     { id: 2, name: "Ana Torres" },
     { id: 3, name: "Luis Ramírez" },
     { id: 4, name: "Sofía Gutierrez" },

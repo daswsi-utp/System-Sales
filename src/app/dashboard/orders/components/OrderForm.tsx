@@ -2,8 +2,8 @@
 
 import { useState } from 'react';
 
-export default function OrderForm() {
-  const [search, setSearch] = useState('');
+export default function OrderForm({ initialSearch = '' }: { initialSearch?: string }) {
+  const [search, setSearch] = useState(initialSearch);
 
   return (
     <div>
