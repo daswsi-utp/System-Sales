@@ -5,7 +5,7 @@ import React from 'react';
 import clsx from 'clsx';
 import { FileText } from 'lucide-react';
 const data = [
-  // Agrega los datos de la tabla aquí
+
   {
     id: '#0001',
     customer: 'Juan Pérez',
@@ -126,7 +126,7 @@ export default function ReportTable() {
               <th className="px-4 py-2 text-left">Payment</th>
               <th className="px-4 py-2 text-left">Status</th>
               <th className="px-4 py-2 text-left">Cashier</th>
-              <th className="px-4 py-2 text-left">Actions</th> {/* Nueva columna para el ícono */}
+              <th className="px-4 py-2 text-left">Actions</th> 
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-200">
@@ -138,7 +138,7 @@ export default function ReportTable() {
                 <td className="px-4 py-2">{item.total}</td>
                 <td className="px-4 py-2">{item.discount}</td>
 
-                {/* Payment Label */}
+              
                 <td className="px-4 py-2">
                   <span className={clsx(
                     "px-2 py-1 rounded-full text-xs font-medium",
@@ -150,7 +150,7 @@ export default function ReportTable() {
                   </span>
                 </td>
 
-                {/* Status Label */}
+             
                 <td className="px-4 py-2">
                   <span className={clsx(
                     "px-2 py-1 rounded-full text-xs font-medium",
@@ -164,13 +164,13 @@ export default function ReportTable() {
 
                 <td className="px-4 py-2">{item.cashier}</td>
 
-                {/* Columna de acciones con el ícono de PDF */}
+                
                 <td className="px-4 py-2 text-center">
                   <button
                     className="p-2 bg-neutral-500 text-white rounded-full hover:bg-neutral-400"
-                    title="Generate PDF" // Tooltip opcional para el botón
+                    title="Generate PDF" 
                   >
-                    <FileText size={20} /> {/* Ícono de PDF */}
+                    <FileText size={20} /> 
                   </button>
                 </td>
               </tr>
@@ -179,7 +179,7 @@ export default function ReportTable() {
         </table>
       </div>
 
-      {/* Simple pagination (solo botón de Next) */}
+   
       <div className="mt-6 text-right">
         <button className="px-6 py-2 bg-blue-900 text-white rounded-lg hover:bg-blue-800">
           Next → 
