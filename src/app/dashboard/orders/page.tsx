@@ -1,4 +1,3 @@
-
 import { Metadata } from 'next';
 import Link from 'next/link';
 import OrderForm from './components/OrderForm';
@@ -20,7 +19,7 @@ const orders = [
   { id: '00008', customer: 'Alan Romeo', total: 'S/ 1400.00', status: 'Completed' },
   { id: '00009', customer: 'Nahira Mamani', total: 'S/ 1400.00', status: 'Pending' },
   { id: '00010', customer: 'Pedro Juarez', total: 'S/ 1400.00', status: 'Cancelled' },
-  { id: '00011', customer: 'Itaro Quilco', total: 'S/ 1400.00', status: 'Pending' },
+  { id: '00011', customer: 'Italo Mamani', total: 'S/ 1400.00', status: 'Pending' },
   { id: '00012', customer: 'Sebastian Flores', total: 'S/ 1400.00', status: 'Completed' },
 ];
 
@@ -43,7 +42,7 @@ export default function OrdersPage() {
           <OrderButtons />
         </div>
 
-        <OrderForm />
+        <OrderForm />     
 
         <div className="mt-8 bg-white shadow overflow-hidden rounded-lg">
           <div className="overflow-x-auto">
@@ -69,11 +68,10 @@ export default function OrdersPage() {
                   <tr key={`${order.id}-${order.customer}`} className="hover:bg-gray-50 transition-colors duration-150">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <Link
-                        href={`orders/[id]?id=${order.id}`}
-                        /*href={`/orders/id?id=${order.id}`}*/
+                        href={`/dashboard/orders/${order.id}`} 
                         className="text-blue-600 hover:text-blue-800 hover:underline font-medium"
                       >
-                        #{order.id}
+                        #{order.id} 
                       </Link>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
@@ -97,7 +95,7 @@ export default function OrdersPage() {
         <nav className="mt-6 flex items-center justify-between" aria-label="Pagination">
           <div className="hidden sm:block">
             <p className="text-sm text-gray-700">
-              Displaying <span className="font-medium">1</span> a <span className="font-medium">12</span> de <span className="font-medium">12</span> orders
+              Displaying <span className="font-medium">1</span> to <span className="font-medium">{orders.length}</span> of <span className="font-medium">{orders.length}</span> orders
             </p>
           </div>
           <div className="flex-1 flex justify-between sm:justify-end">
@@ -119,3 +117,4 @@ export default function OrdersPage() {
     </div>
   );
 }
+

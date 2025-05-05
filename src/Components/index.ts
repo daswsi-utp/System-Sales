@@ -1,5 +1,5 @@
-export { FooterPage } from "./ui/footer";
+export { FooterPage } from "./Presentation/footer";
 
-export { CardNbas } from "./ui/CardNbas";
+export { CardNbas } from "./Presentation/CardNbas";
 export { providers } from "./ui/providers";
 

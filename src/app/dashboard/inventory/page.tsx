@@ -1,5 +1,4 @@
-
-import { CardInventory } from "./components/CardInventory";
+import { CardInventory } from "../components/CardInventory/CardInventory";
 
 export default function Inventorypage  ()  {
   return (

@@ -4,6 +4,7 @@ import { SidebarItem } from '../SidebarItem/SidebarItem';
 import { dataGeneralSidebar, dataSupportSidebar } from './SidebarRoutes.data';
 import { Button } from '../ui/button';
 import { LuAnvil } from 'react-icons/lu';
+import Link from 'next/link';
 
 export const SidebarRoutes = () => {
   const redirigir = () => {
@@ -14,10 +15,10 @@ export const SidebarRoutes = () => {
   return (
     <div className="flex flex-col justify-between h-full">
       <div>
-        <div className="p-2 md:p-2 flex flex-row gap-2 ">
+        <Link href="/dashboard/main" className="p-2 md:p-2 flex flex-row gap-2 ">
           <LuAnvil size={25} className='text-[#79808a] mb-2 ' />
           <p className='text-[#79808a] mb-2 text-xl'>GOINVENTORY</p>
-        </div>
+        </Link>
         <div className="p-2 md:p-6">
           <p className='text-[#79808a] mb-2'>GENERAL</p>
           {

@@ -1,8 +1,12 @@
-'use Client'
+import React from 'react';
 
-import { ThemeProvider } from "next-themes"
+interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {}
 
-export const providers = ({children}:{children:React.ReactNode}) => {
-  return <ThemeProvider attribute="class" defaultTheme='system' enableSystem>{children}</ThemeProvider>
-  
-}
+export const Input: React.FC<InputProps> = ({ ...props }) => {
+  return (
+    <input
+      {...props}
+      className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+    />
+  );
+};

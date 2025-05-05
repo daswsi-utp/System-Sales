@@ -1,15 +1,11 @@
-// UserModal.tsx
 'use client'
 import { useState } from 'react';
 import { User } from "./UserTable";
 
 export const UserModal = ({ user, isOpen, onClose }: { user: User, isOpen: boolean, onClose: () => void }) => {
-  if (!user) return null; 
-
-  const [firstName, setFirstName] = useState(user.name);
-  const [email, setEmail] = useState(user.email);
-
-  if (!isOpen) return null;
+  const [firstName, setFirstName] = useState(user?.name || '');
+  const [email, setEmail] = useState(user?.email || '');
+  if (!user || !isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex justify-center items-center">
@@ -17,7 +13,7 @@ export const UserModal = ({ user, isOpen, onClose }: { user: User, isOpen: boole
         <h3 className="text-xl font-semibold text-gray-900 dark:text-white">Edit user</h3>
         <form className="space-y-4">
           <div>
-            <label htmlFor="first-name" className="block text-sm font-medium text-gray-700"></label>
+            <label htmlFor="first-name" className="block text-sm font-medium text-gray-700">First Name</label>
             <input
               type="text"
               id="first-name"
@@ -27,7 +23,7 @@ export const UserModal = ({ user, isOpen, onClose }: { user: User, isOpen: boole
             />
           </div>
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700"></label>
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
             <input
               type="email"
               id="email"

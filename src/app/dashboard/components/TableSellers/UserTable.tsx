@@ -38,7 +38,7 @@ export const users: User[] = [
   },
 ];
 
-const UserRow = ({ user }: { user: User }) => {
+export const UserRow = ({ user }: { user: User }) => {
   const { name, email, position, status } = user;
   
   return (

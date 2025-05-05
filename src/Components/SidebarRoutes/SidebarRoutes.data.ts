@@ -1,4 +1,4 @@
-import { BaggageClaim, BarChart4, Building2, CircleHelpIcon, ClipboardMinus, NotepadText, Settings, User } from "lucide-react";
+import { BaggageClaim, BarChart4, Building2, CircleHelpIcon, ClipboardMinus, NotepadText, User } from "lucide-react";
 
 export const dataGeneralSidebar = [
     {
@@ -38,11 +38,6 @@ export const dataToolsSidebar = [
 ]
 
 export const dataSupportSidebar = [
-    {
-        icon: Settings,
-        label:"Setting",
-        href:"/dashboard/settings"
-    },
     {
         icon:User,
         label:"Account",
