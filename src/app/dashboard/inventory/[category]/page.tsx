@@ -8,6 +8,7 @@ import { power } from '@/app/dashboard/inventory/data/power';
 import { processors } from '@/app/dashboard/inventory/data/processors';
 import { storage } from '@/app/dashboard/inventory/data/storage';
 import { CiEdit } from 'react-icons/ci';
+import axios from '@/app/dashboard/inventory/utils/axiosInstance';
 
 interface Product {
   id: number;
@@ -32,18 +33,28 @@ export async function generateStaticParams() {
 }
 
 async function getData(category: string): Promise<Product[]> {
-  const dataMap: Record<string, Product[]> = {
-    cabinets,
-    graphics,
-    memory,
-    processors,
-    motherboard,
-    peripherals,
-    power,
-    storage,
+  
+  try{
+    const res = await axios.get(`/category/${category}`)
+
+
+    
+    return res.data.map((item: any)=>(
+      {
+        id: item.idProduct,
+        name: item.nameProduct,
+        description: item.descriptionProduct,
+        stock: item.quantityProduct,
+        price:item.priceProduct,
+      } 
+    ))
+  }catch(error){
+    console.error('Error al obtener productos', error);
+    return[];
+  }
   };
-  return dataMap[category] || [];
-}
+
+
 
 async function CategoryContent({ category }: { category: string }) {
   const products = await getData(category);
