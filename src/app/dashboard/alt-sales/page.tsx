@@ -1,10 +1,12 @@
 'use client';
 import { useState } from 'react';
 import { FiX, FiPlus, FiMinus, FiShoppingCart, FiUser, FiSearch, FiCalendar, FiTrash2 } from 'react-icons/fi';
+import axios from '@/app/dashboard/inventory/utils/axiosInstance';
 
 interface Product {
   id: number;
   category: string;
+  brand: string;
   name: string;
   pricePEN: number;
   stock: number;
@@ -14,7 +16,22 @@ interface OrderModalProps {
   onClose: () => void;
 }
 
-
+async function getData(): Promise<Product[]> {
+    try{
+      const res = await axios.get(`/all`);
+      return res.data.map((item: any) =>{
+        id: item.idNumber;
+        name: item.name;
+        category: item.category;
+        brand: item.brand;
+        pricePen: item.price;
+        stock: item.stock;
+      })
+    }catch(error){
+      console.error('Error while trying to get products data', error);
+      return [];
+    }
+};
 
 const OrderModal = ({ onClose }: OrderModalProps) => {
   const salesStaff = [
@@ -25,14 +42,14 @@ const OrderModal = ({ onClose }: OrderModalProps) => {
   ];
 
   const pcComponents: Product[] = [
-    { id: 1, category: "CPU", name: "Intel Core i3-12100F", pricePEN: 350, stock: 15 },
-    { id: 2, category: "CPU", name: "Intel Core i5-13600K", pricePEN: 1040, stock: 8 },
-    { id: 3, category: "GPU", name: "NVIDIA RTX 3060", pricePEN: 1200, stock: 5 },
-    { id: 4, category: "RAM", name: "Corsair Vengeance 16GB", pricePEN: 180, stock: 12 },
-    { id: 5, category: "CPU", name: "Intel Core i3-12100F", pricePEN: 350, stock: 15 },
-    { id: 6, category: "CPU", name: "Intel Core i5-13600K", pricePEN: 1040, stock: 8 },
-    { id: 7, category: "GPU", name: "NVIDIA RTX 3060", pricePEN: 1200, stock: 5 },
-    { id: 8, category: "RAM", name: "Corsair Vengeance 16GB", pricePEN: 180, stock: 12 },
+    { id: 1, category: "CPU", brand: "Intel", name: "Intel Core i3-12100F", pricePEN: 350, stock: 15 },
+    { id: 2, category: "CPU", brand: "Intel", name: "Intel Core i5-13600K", pricePEN: 1040, stock: 8 },
+    { id: 3, category: "GPU", brand: "NVIDIA Corp.",name: "NVIDIA RTX 3060", pricePEN: 1200, stock: 5 },
+    { id: 4, category: "RAM", brand: "Intel",name: "Corsair Vengeance 16GB", pricePEN: 180, stock: 12 },
+    { id: 5, category: "CPU", brand: "Intel",name: "Intel Core i3-12100F", pricePEN: 350, stock: 15 },
+    { id: 6, category: "CPU", brand: "Intel",name: "Intel Core i5-13600K", pricePEN: 1040, stock: 8 },
+    { id: 7, category: "GPU", brand: "NVIDIA Corp.",name: "NVIDIA RTX 3060", pricePEN: 1200, stock: 5 },
+    { id: 8, category: "RAM", brand: "Intel",name: "Corsair Vengeance 16GB", pricePEN: 180, stock: 12 },
   ];
 
     const statusStyles = {
@@ -43,12 +60,25 @@ const OrderModal = ({ onClose }: OrderModalProps) => {
 
   const [orderDate, setOrderDate] = useState(new Date().toISOString().split('T')[0]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [searchCategory, setSearchCategory] = useState("");
   const [selectedProducts, setSelectedProducts] = useState<{product: Product, quantity: number}[]>([]);
 
-  const filteredComponents = pcComponents.filter(component =>
+  /*const filteredComponents = pcComponents.filter(component =>
     component.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     component.category.toLowerCase().includes(searchTerm.toLowerCase())
   );
+  */
+
+  function filterProducts(items: Product[], searchTerm?: string | null, searchCategory?: string | null): Product[]{
+    const filteredItems = items.filter(item => {
+      const nameMatches = !searchTerm || item.name.toLowerCase().includes(searchTerm.toLowerCase());
+      const categoryMatches = !searchCategory || item.category.toLowerCase().includes(searchCategory.toLowerCase());
+      return nameMatches && categoryMatches;
+    })
+    return filteredItems;
+  }
+
+  const filteredComponents = filterProducts(pcComponents, searchTerm, searchCategory);
 
   const handleQuantityChange = (product: Product, change: number) => {
     setSelectedProducts(prev => {
@@ -84,6 +114,7 @@ const OrderModal = ({ onClose }: OrderModalProps) => {
     setOrderDate(new Date().toISOString().split('T')[0]);///
     setSelectedProducts([]);
     setSearchTerm("");
+    setSearchCategory("");
   };
 
   const totalPEN = selectedProducts.reduce((sum, item) => sum + (item.product.pricePEN * item.quantity), 0);
@@ -97,20 +128,36 @@ const OrderModal = ({ onClose }: OrderModalProps) => {
         </div>
 
         <div className="p-6 overflow-y-auto flex-grow">
-          <div className="mb-6 space-y-1">
-            <label className="block text-sm font-medium text-gray-700">SEARCH </label>
-            <div className="relative">
-              <FiSearch className="absolute left-3 top-3 text-gray-400" />
-              <input
-                type="text"
-                placeholder="Search by name or category..."
-                className="w-full p-2 pl-10 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
+          <div className="flex flex-col md:flex-row gap-4 p-4">
+            <div className="mb-6 space-y-1 w-full md:w-1/2">
+              <label className="block text-sm font-medium text-gray-700">SEARCH</label>
+              <div className="relative">
+                <FiSearch className="absolute left-3 top-3 text-gray-400" />
+                <input
+                  type="text"
+                  placeholder="Search by name or category..."
+                  className="w-full p-2 pl-10 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+              </div>
+            </div>
+            <div className="mb-6 space-y-1 w-full md:w-1/2">
+              <label className="block text-sm font-medium text-gray-700">BRAND</label>
+              <div className="relative">
+                <FiSearch className="absolute left-3 top-3 text-gray-400" />
+                <input
+                  type="text"
+                  placeholder="Search by brand's name"
+                  className="w-full p-2 pl-10 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  value={searchCategory}
+                  onChange={(e) => setSearchCategory(e.target.value)}
+                />
+              </div>
             </div>
           </div>
-
+          
+        
           <div className="flex flex-col md:flex-row gap-6">
             <div className="flex-1">
               <h3 className="text-sm font-medium text-gray-700 mb-2">INVENTORY</h3>
