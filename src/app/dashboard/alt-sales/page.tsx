@@ -117,7 +117,10 @@ const OrderModal = ({ onClose }: OrderModalProps) => {
     setSearchCategory("");
   };
 
-  const totalPEN = selectedProducts.reduce((sum, item) => sum + (item.product.pricePEN * item.quantity), 0);
+  const subtotalPEN = selectedProducts.reduce((sum, item) => sum + (item.product.pricePEN * item.quantity), 0);
+  const taxPEN = subtotalPEN * 0.17;
+  const totalPEN = subtotalPEN + taxPEN;
+
 
   return (
       <div className="min-h-screen flex flex-col p-6">
@@ -262,11 +265,13 @@ const OrderModal = ({ onClose }: OrderModalProps) => {
                     <div className="border-t pt-3 space-y-2">
                       <div className="flex justify-between font-medium">
                         <span>Subtotal:</span>
-                        <span className="font-mono">S/ {totalPEN.toFixed(2)}</span>
+                        <span className="font-mono">S/ {subtotalPEN.toFixed(2)}</span>
                       </div>
 
-
-
+                      <div className='flex justify-between font-medium'>
+                        <span>Tax (IGV):</span>
+                        <span className='font-mono'>S/ {(taxPEN * 1.00).toFixed(2)}</span> 
+                      </div>
                       <div className="flex justify-between text-lg font-bold border-t pt-2">
                         <span>Total:</span>
                         <span className="font-mono">S/ {(totalPEN * 1.00).toFixed(2)}</span>
