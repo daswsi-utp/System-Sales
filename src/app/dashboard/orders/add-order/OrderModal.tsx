@@ -1,4 +1,5 @@
 'use client';
+import { House } from 'lucide-react';
 import { useState } from 'react';
 import { FiX, FiPlus, FiMinus, FiShoppingCart, FiUser, FiSearch, FiCalendar, FiTrash2 } from 'react-icons/fi';
 
@@ -15,12 +16,26 @@ interface OrderModalProps {
 }
 
 const OrderModal = ({ onClose }: OrderModalProps) => {
+  const warehouse = [
+    { id: 1, name: "Main Warehouse" },
+    { id: 2, name: "Secondary Warehouse" },
+    { id: 3, name: "Online Storage" },
+    { id: 4, name: "Warehouse Lima" },
+  ];
+  const provider = [
+    { id: 1, name: "Tech Distributors S.A." },
+    { id: 2, name: "PC Parts Perú" },
+    { id: 3, name: "Hardware World" },
+    { id: 4, name: "GlobalTech" },
+  ];
   const salesStaff = [
     { id: 1, name: "Panchiro manchiro" },
     { id: 2, name: "Ana Torres" },
     { id: 3, name: "Luis Ramírez" },
     { id: 4, name: "Sofía Gutierrez" },
   ];
+  
+
 
   const pcComponents: Product[] = [
     { id: 1, category: "CPU", name: "Intel Core i3-12100F", pricePEN: 350, stock: 15 },
@@ -34,6 +49,8 @@ const OrderModal = ({ onClose }: OrderModalProps) => {
   ];
 
   const [selectedStaff, setSelectedStaff] = useState("");
+  const [selectedWarehouse, setSelectedWarehouse] = useState("");
+  const [selectedProvider, setSelectedProvider] = useState("");
   const [orderDate, setOrderDate] = useState(new Date().toISOString().split('T')[0]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedProducts, setSelectedProducts] = useState<{product: Product, quantity: number}[]>([]);
@@ -75,6 +92,8 @@ const OrderModal = ({ onClose }: OrderModalProps) => {
 
   const clearOrder = () => {
     setSelectedStaff("");
+    setSelectedWarehouse("");
+    setSelectedProvider("");
     setOrderDate(new Date().toISOString().split('T')[0]);///
     setSelectedProducts([]);
     setSearchTerm("");
@@ -121,6 +140,43 @@ const OrderModal = ({ onClose }: OrderModalProps) => {
                 </select>
               </div>
             </div>
+
+            <div className="space-y-1">
+              <label className="block text-sm font-medium text-gray-700">Select Warehouse *</label>
+              <div className="relative">
+                <FiUser className="absolute left-3 top-3 text-gray-400" />
+                <select
+                  value={selectedWarehouse}
+                  onChange={(e) => setSelectedWarehouse(e.target.value)}
+                  className="w-full p-2 pl-10 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  required
+                >
+                  <option value="">Select Warehouse</option>
+                  {warehouse.map(house => (
+                    <option key={house.id} value={house.id}>{house.name}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            <div className="space-y-1">
+              <label className="block text-sm font-medium text-gray-700">Select provider *</label>
+              <div className="relative">
+                <FiUser className="absolute left-3 top-3 text-gray-400" />
+                <select
+                  value={selectedProvider}
+                  onChange={(e) => setSelectedProvider(e.target.value)}
+                  className="w-full p-2 pl-10 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  required
+                >
+                  <option value="">Select Provider</option>
+                  {provider.map(vider => (
+                    <option key={vider.id} value={vider.id}>{vider.name}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+            
             <div className="space-y-1">
               <label className="block text-sm font-medium text-gray-700">DATE *</label>
               <div className="relative">
@@ -298,6 +354,8 @@ const OrderModal = ({ onClose }: OrderModalProps) => {
               onClick={() => {
                 console.log({
                   staff: selectedStaff,
+                  house: selectedWarehouse,
+                  vider: selectedProvider,
                   date: orderDate,
                   products: selectedProducts,
                   totalPEN: totalPEN * 1.00
@@ -305,11 +363,11 @@ const OrderModal = ({ onClose }: OrderModalProps) => {
                 onClose();
               }}
               className={`px-4 py-2 flex items-center gap-2 rounded-md transition-colors ${
-                selectedProducts.length > 0 && selectedStaff
+                selectedProducts.length > 0 && selectedStaff && selectedWarehouse && selectedProvider 
                   ? "bg-blue-600 text-white hover:bg-blue-700"
                   : "bg-gray-300 text-gray-500 cursor-not-allowed"
               }`}
-              disabled={selectedProducts.length === 0 || !selectedStaff}
+              disabled={selectedProducts.length === 0 || !selectedStaff || !selectedWarehouse || !selectedProvider}
             >
               <FiShoppingCart />
               <span>Register order</span>
