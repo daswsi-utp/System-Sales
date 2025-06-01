@@ -90,7 +90,6 @@ export const getOrders = (): Order[] => {
     const savedOrders = localStorage.getItem('orders');
     const parsed = savedOrders ? JSON.parse(savedOrders) : initialOrders;
 
-    // Validación rápida: asegúrate que todos los pedidos tengan `registry`
     if (Array.isArray(parsed) && parsed.every(order => order.registry?.user)) {
       return parsed;
     }
