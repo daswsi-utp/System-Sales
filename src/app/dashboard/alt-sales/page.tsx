@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { FiX, FiPlus, FiMinus, FiShoppingCart, FiUser, FiSearch, FiCalendar, FiTrash2 } from 'react-icons/fi';
 import axios from '@/app/dashboard/inventory/utils/axiosInstance';
+import { Timestamp } from 'next/dist/server/lib/cache-handlers/types';
 
 interface Product {
   id: number;
@@ -10,6 +11,13 @@ interface Product {
   name: string;
   pricePEN: number;
   stock: number;
+}
+interface RegistrySale{
+  type: string;
+  registrationDate: Timestamp;
+  userId: number;
+  //This field should be a constant as we only plan to route a template file which will be then used to generate a new file dynamically in the client side
+  templateUrl: string;
 }
 
 interface OrderModalProps {
