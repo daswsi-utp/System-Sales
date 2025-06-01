@@ -43,7 +43,7 @@ export type Order = {
 };
 export const initialOrders: Order[] = [
     {
-        id: '00004',
+        id: '00001',
         warehouse: {
             id: 6,
             nameWarehouse: "Main Warehouse",
