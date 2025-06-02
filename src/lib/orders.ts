@@ -1,3 +1,4 @@
+
 type Warehouse = {
     id: number;
     nameWarehouse: string;
@@ -33,7 +34,7 @@ type RelatedProduct = {
 export type OrderStatus = 'Completed' | 'Pending' | 'Cancelled';
 
 export type Order = {
-    id: string; 
+    id: string;
     warehouse: Warehouse;
     provider: Provider;
     registry: Registry;
@@ -82,39 +83,49 @@ export const initialOrders: Order[] = [
         status: "Pending"
     }
 ];
-    
+
+
+
+
 export const getOrders = (): Order[] => {
-  if (typeof window === 'undefined') return initialOrders;
+if (typeof window === 'undefined') return initialOrders;
 
-  try {
-    const savedOrders = localStorage.getItem('orders');
-    const parsed = savedOrders ? JSON.parse(savedOrders) : initialOrders;
+try {
+ const savedOrders = localStorage.getItem('orders');
+ const parsed = savedOrders ? JSON.parse(savedOrders) : initialOrders;
 
-    if (Array.isArray(parsed) && parsed.every(order => order.registry?.user)) {
-      return parsed;
-    }
+ if (Array.isArray(parsed) && parsed.every(order => order.registry?.user)) {
+   return parsed;
+ }
 
-    return initialOrders;
-  } catch (e) {
-    console.error("Error parsing orders from localStorage", e);
-    return initialOrders;
-  }
+ return initialOrders;
+} catch (e) {
+ console.error("Error parsing orders from localStorage", e);
+ return initialOrders;
+}
 };
 
 
 export const saveOrders = (orders: Order[]) => {
-    localStorage.setItem('orders', JSON.stringify(orders));
+ localStorage.setItem('orders', JSON.stringify(orders));
 };
 
 export const updateOrderStatus = (orderId: string, newStatus: OrderStatus): Order[] => {
-    const orders = getOrders();
-    const updatedOrders = orders.map(order =>
-        order.id === orderId ? { ...order, status: newStatus } : order
-    );
-    saveOrders(updatedOrders);
-    return updatedOrders;
+ const orders = getOrders();
+ const updatedOrders = orders.map(order =>
+     order.id === orderId ? { ...order, status: newStatus } : order
+ );
+ saveOrders(updatedOrders);
+ return updatedOrders;
 };
 
+
+
+
+
+
+
+// OTHER CODE
 
 /*
 
