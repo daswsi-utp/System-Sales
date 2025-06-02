@@ -1,5 +1,5 @@
 import axios from 'axios';
-const GATEWAY_URL = process.env.NEXT_PUBLIC_GATEWAY_URL || 'http://localhost:8000';
+const GATEWAY_URL = process.env.NEXT_PUBLIC_GATEWAY_URL || 'http://localhost:8080';
 export interface Brand{
   id: number;
   nameBrand: string;
