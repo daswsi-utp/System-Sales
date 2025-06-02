@@ -20,6 +20,10 @@ type UserData = {
   birthDate?: string;
   roles?: Role[];
   avatarUrl?: string;
+  phone?: string;
+  bio?: string;
+  postalCode?: string;
+  taxId?: string;
 };
 
 export const Profile = () => {
@@ -30,10 +34,9 @@ export const Profile = () => {
 
   const getEmailFromToken = (token: string): string | null => {
     try {
-      const payload = JSON.parse(atob(token.split('.')[1]));
-      // Eliminar comillas si existen y asegurar que es string
-      const email = payload.sub?.replace(/^"|"$/g, '');
-      return typeof email === 'string' ? email : null;
+      const payload = JSON.parse(atob(token.split(".")[1]));
+      const email = payload.sub?.replace(/^"|"$/g, "");
+      return typeof email === "string" ? email : null;
     } catch (error) {
       console.error("Error decoding token:", error);
       return null;
@@ -50,44 +53,38 @@ export const Profile = () => {
     }
 
     const userEmail = getEmailFromToken(token);
-    
+
     if (!userEmail) {
       setLoading(false);
       setError("Token inválido o sin información de usuario");
       return;
     }
 
-    console.log("Obteniendo datos para el email:", userEmail);
+    axios
+      .get(`/api/users/email/${userEmail}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        if (!response.data) throw new Error("No se recibieron datos del usuario");
+        setUser(response.data);
+      })
+      .catch((error) => {
+        console.error("Error al obtener datos:", {
+          status: error.response?.status,
+          message: error.message,
+          emailUsed: userEmail,
+        });
 
-    axios.get(`/api/users/email/${userEmail}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-    .then(response => {
-      if (!response.data) {
-        throw new Error("No se recibieron datos del usuario");
-      }
-      setUser(response.data);
-    })
-    .catch(error => {
-      console.error("Error al obtener datos:", {
-        status: error.response?.status,
-        message: error.message,
-        emailUsed: userEmail
-      });
-
-      let errorMessage = "Error al cargar el perfil";
-      if (error.response?.status === 401) {
-        errorMessage = "Sesión expirada, redirigiendo...";
-        setTimeout(() => router.push("/auth/login"), 2000);
-      } else if (error.response?.data?.message) {
-        errorMessage = error.response.data.message;
-      }
-
-      setError(errorMessage);
-    })
-    .finally(() => setLoading(false));
+        let errorMessage = "Error al cargar el perfil";
+        if (error.response?.status === 401) {
+          errorMessage = "Sesión expirada, redirigiendo...";
+          setTimeout(() => router.push("/auth/login"), 2000);
+        } else if (error.response?.data?.message) {
+          errorMessage = error.response.data.message;
+        }
+        setError(errorMessage);
+      })
+      .finally(() => setLoading(false));
   }, [router]);
 
   if (loading) {
@@ -103,8 +100,16 @@ export const Profile = () => {
       <div className="bg-red-50 border-l-4 border-red-500 p-4 max-w-md mx-auto mt-8">
         <div className="flex">
           <div className="flex-shrink-0">
-            <svg className="h-5 w-5 text-red-500" viewBox="0 0 20 20" fill="currentColor">
-              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+            <svg
+              className="h-5 w-5 text-red-500"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fillRule="evenodd"
+                d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                clipRule="evenodd"
+              />
             </svg>
           </div>
           <div className="ml-3">
@@ -130,7 +135,7 @@ export const Profile = () => {
   }
 
   return (
-    <div className="bg-white shadow-lg rounded-lg p-6 mt-6 mx-auto max-w-4xl">
+    <div className="bg-white shadow-lg rounded-lg p-6 mt-6 mx-auto max-w-8xl px-4 sm:px-6 lg:px-8">
       {/* Profile Header */}
       <div className="flex items-center p-5 mb-6 border border-gray-200 rounded-2xl dark:border-gray-800 lg:p-6">
         <Avatar className="size-20">
@@ -139,21 +144,19 @@ export const Profile = () => {
             className="rounded-2xl"
             alt={`${user.name} ${user.lastName}`}
           />
-          <AvatarFallback className="bg-gray-200 rounded-2xl flex items-center justify-center text-xl font-semibold">
-            {user.name?.[0] || "U"}
-            {user.lastName?.[0] || "N"}
-          </AvatarFallback>
+          <AvatarFallback>CN</AvatarFallback>
         </Avatar>
         <div className="ml-5">
           <h2 className="text-2xl font-semibold text-gray-800">
             {user.name} {user.lastName}
           </h2>
+          <p className="text-gray-500">Team Manager</p>
           <p className="text-gray-500">
             {[user.city, user.state, user.country].filter(Boolean).join(", ")}
           </p>
         </div>
         <div className="ml-auto flex gap-x-3">
-          <button 
+          <button
             className="text-blue-500 hover:text-blue-700"
             onClick={() => router.push("/profile/edit")}
           >
@@ -166,61 +169,85 @@ export const Profile = () => {
       <div className="mt-6 p-5 mb-6 border border-gray-200 rounded-2xl dark:border-gray-800 lg:p-6">
         <div className="flex justify-between items-center">
           <h3 className="text-xl font-semibold text-gray-800">
-            Información Personal
+            Personal Information
           </h3>
-          <button 
+          <button
             className="text-blue-500 hover:text-blue-700"
             onClick={() => router.push("/profile/edit")}
           >
             <PencilIcon className="w-5 h-5" />
           </button>
         </div>
-        <div className="mt-4 space-y-3">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <p className="text-sm text-gray-500">Nombre</p>
-              <p className="font-medium">{user.name}</p>
-            </div>
-            <div>
-              <p className="text-sm text-gray-500">Apellido</p>
-              <p className="font-medium">{user.lastName}</p>
-            </div>
-            <div>
-              <p className="text-sm text-gray-500">Email</p>
-              <p className="font-medium">{user.email}</p>
-            </div>
-            <div>
-              <p className="text-sm text-gray-500">Fecha de Nacimiento</p>
-              <p className="font-medium">{user.birthDate || "No especificada"}</p>
-            </div>
-            <div>
-              <p className="text-sm text-gray-500">País</p>
-              <p className="font-medium">{user.country || "No especificado"}</p>
-            </div>
-            <div>
-              <p className="text-sm text-gray-500">Ciudad</p>
-              <p className="font-medium">{user.city || "No especificada"}</p>
-            </div>
-          </div>
+        <div className="mt-4 space-y-2 text-[#79808a]">
+          <p>
+            <strong>First Name:</strong> {user.name}
+          </p>
+          <p>
+            <strong>Last Name:</strong> {user.lastName}
+          </p>
+          <p>
+            <strong>Email address:</strong> {user.email}
+          </p>
+          <p>
+            <strong>Phone:</strong> {user.phone || "+09 363 398 46"}
+          </p>
+          <p>
+            <strong>Role:</strong>{" "}
+            {user.roles && user.roles.length > 0
+              ? user.roles[0].name
+              : "No role assigned"}
+          </p>
         </div>
       </div>
 
-      {/* Roles Section */}
-      {user.roles && user.roles.length > 0 && (
-        <div className="mt-6 p-5 mb-6 border border-gray-200 rounded-2xl dark:border-gray-800 lg:p-6">
-          <h3 className="text-xl font-semibold text-gray-800 mb-4">Roles</h3>
-          <div className="flex flex-wrap gap-2">
-            {user.roles.map((role, index) => (
-              <span 
-                key={index}
-                className="px-3 py-1 bg-blue-100 text-blue-800 text-sm font-medium rounded-full"
-              >
-                {role.name}
-              </span>
-            ))}
-          </div>
+      {/* Address Section */}
+      <div className="mt-6 p-5 mb-6 border border-gray-200 rounded-2xl dark:border-gray-800 lg:p-6">
+        <div className="flex justify-between items-center">
+          <h3 className="text-xl font-semibold text-gray-800">Address</h3>
+          <button
+            className="text-blue-500 hover:text-blue-700"
+            onClick={() => router.push("/profile/edit")}
+          >
+            <PencilIcon className="w-5 h-5" />
+          </button>
         </div>
-      )}
+        <div className="mt-4 space-y-2 text-[#79808a] rounded-2xl p-2">
+          <p>
+            <strong>Country:</strong> {user.country || "United States"}
+          </p>
+          <p>
+            <strong>City/State:</strong>{" "}
+            {[user.city, user.state].filter(Boolean).join(", ") || "Arizona, United States"}
+          </p>
+          <p>
+            <strong>Postal Code:</strong> {user.postalCode || "ERT 2489"}
+          </p>
+          <p>
+            <strong>TAX ID:</strong> {user.taxId || "AS4568384"}
+          </p>
+        </div>
+      </div>
+
+      {/* Password Reset Section */}
+      <div className="mt-6 p-5 mb-6 border border-gray-200 rounded-2xl dark:border-gray-800 lg:p-6">
+        <div className="flex justify-between items-center">
+          <h3 className="text-xl font-semibold text-gray-800">Password Reset</h3>
+          <button
+            className="text-blue-500 hover:text-blue-700"
+            onClick={() => router.push("/profile/edit")}
+          >
+            <PencilIcon className="w-5 h-5" />
+          </button>
+        </div>
+        <div className="mt-4 space-y-2 text-[#79808a] rounded-2xl p-2">
+          <p>
+            <strong>Current Password:</strong> ********
+          </p>
+          <p>
+            <strong>New Password:</strong> ********
+          </p>
+        </div>
+      </div>
     </div>
   );
 };
