@@ -1,61 +1,11 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FiX, FiPlus, FiMinus, FiShoppingCart, FiUser, FiSearch, FiCalendar, FiTrash2 } from 'react-icons/fi';
-import axios from 'axios';
-import { Timestamp } from 'next/dist/server/lib/cache-handlers/types';
-    
-interface Brand{
-  id: number;
-  nameBrand: string;
-}
+import * as GateWayAPI from '../../../service/gatewayApi';
 
-interface Category{
-  id: number;
-  nameCategory: string;
-}
-interface Product {
-  idProduct: number;
-  nameProduct: string
-  priceProduct: number;
-  quantityProduct: number;
-  category: Category;
-  brand: Brand;
-}
-interface RegistrySale{
-  type: string;
-  registrationDate: Timestamp;
-  userId: number;
-  //This field should be a constant as we only plan to route a template file which will be then used to generate a new file dynamically in the client side
-  templateUrl: string;
-}
 
 interface OrderModalProps {
   onClose: () => void;
-}
-
-async function getData(): Promise<Product[]> {
-    try{
-      const res = await axios.get(`/all`);
-      return res.data.map((item: any) =>{
-        id: item.idNumber;
-        name: item.name;
-        category: item.category;
-        brand: item.brand;
-        pricePen: item.price;
-        stock: item.stock;
-      })
-    }catch(error){
-      console.error('Error while trying to get products data', error);
-      return [];
-    }
-};
-async function getAllProducts(): Promise<Product[]>{
-  try{
-    const res = await axios.get(`${process.env.NEXT_PUBLIC_GATEWAY_URL}/api/products/all`);
-    return res.data.map((item: any)=>{
-
-    })
-  }
 }
 
 const OrderModal = ({ onClose }: OrderModalProps) => {
@@ -66,27 +16,30 @@ const OrderModal = ({ onClose }: OrderModalProps) => {
     { id: 4, name: "Sofía Gutierrez" },
   ];
 
-  const pcComponents: Product[] = [
-    { id: 1, category: "CPU", brand: "Intel", name: "Intel Core i3-12100F", pricePEN: 350, stock: 15 },
-    { id: 2, category: "CPU", brand: "Intel", name: "Intel Core i5-13600K", pricePEN: 1040, stock: 8 },
-    { id: 3, category: "GPU", brand: "NVIDIA Corp.",name: "NVIDIA RTX 3060", pricePEN: 1200, stock: 5 },
-    { id: 4, category: "RAM", brand: "Intel",name: "Corsair Vengeance 16GB", pricePEN: 180, stock: 12 },
-    { id: 5, category: "CPU", brand: "Intel",name: "Intel Core i3-12100F", pricePEN: 350, stock: 15 },
-    { id: 6, category: "CPU", brand: "Intel",name: "Intel Core i5-13600K", pricePEN: 1040, stock: 8 },
-    { id: 7, category: "GPU", brand: "NVIDIA Corp.",name: "NVIDIA RTX 3060", pricePEN: 1200, stock: 5 },
-    { id: 8, category: "RAM", brand: "Intel",name: "Corsair Vengeance 16GB", pricePEN: 180, stock: 12 },
-  ];
-
-    const statusStyles = {
-        'In Stock': 'bg-green-100 text-green-800',
-        'Low Stock': 'bg-yellow-100 text-yellow-800',
-        'Out of Stock': 'bg-red-100 text-red-800',
-    };
-
+  const statusStyles = {
+    'In Stock': 'bg-green-100 text-green-800',
+    'Low Stock': 'bg-yellow-100 text-yellow-800',
+    'Out of Stock': 'bg-red-100 text-red-800',
+  };
+  
+  
   const [orderDate, setOrderDate] = useState(new Date().toISOString().split('T')[0]);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchCategory, setSearchCategory] = useState("");
-  const [selectedProducts, setSelectedProducts] = useState<{product: Product, quantity: number}[]>([]);
+  const [selectedProducts, setSelectedProducts] = useState<{product: GateWayAPI.Product, quantity: number}[]>([]);
+  const [products, setProducts] = useState<GateWayAPI.Product[]>([]);
+
+  useEffect(()=>{
+    const fetchProducts = async() =>{
+      try{
+        const data = await GateWayAPI.getAllProducts();
+        setProducts(data);
+      }catch(error){
+        console.error("Failed to load product", error);
+      }
+    };
+    fetchProducts();
+  },[]);
 
   /*const filteredComponents = pcComponents.filter(component =>
     component.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -94,29 +47,29 @@ const OrderModal = ({ onClose }: OrderModalProps) => {
   );
   */
 
-  function filterProducts(items: Product[], searchTerm?: string | null, searchCategory?: string | null): Product[]{
+  function filterProducts(items: GateWayAPI.Product[], searchTerm?: string | null, searchCategory?: string | null): GateWayAPI.Product[]{
     const filteredItems = items.filter(item => {
-      const nameMatches = !searchTerm || item.name.toLowerCase().includes(searchTerm.toLowerCase());
-      const categoryMatches = !searchCategory || item.category.toLowerCase().includes(searchCategory.toLowerCase());
+      const nameMatches = !searchTerm || item.nameProduct.toLowerCase().includes(searchTerm.toLowerCase());
+      const categoryMatches = !searchCategory || item.category.nameCategory.toLowerCase().includes(searchCategory.toLowerCase());
       return nameMatches && categoryMatches;
     })
     return filteredItems;
   }
 
-  const filteredComponents = filterProducts(pcComponents, searchTerm, searchCategory);
+  const filteredComponents = filterProducts(products, searchTerm, searchCategory);
 
-  const handleQuantityChange = (product: Product, change: number) => {
+  const handleQuantityChange = (product: GateWayAPI.Product, change: number) => {
     setSelectedProducts(prev => {
-      const existingIndex = prev.findIndex(item => item.product.id === product.id);
+      const existingIndex = prev.findIndex(item => item.product.idProduct === product.idProduct);
       
       if (existingIndex >= 0) {
         const newQuantity = prev[existingIndex].quantity + change;
         
         if (newQuantity <= 0) {
-          return prev.filter(item => item.product.id !== product.id);
+          return prev.filter(item => item.product.idProduct !== product.idProduct);
         }
         
-        if (newQuantity > product.stock) {
+        if (newQuantity > product.quantityProduct) {
           return prev;
         }
         
@@ -132,7 +85,7 @@ const OrderModal = ({ onClose }: OrderModalProps) => {
   };
 
   const removeProduct = (productId: number) => {
-    setSelectedProducts(prev => prev.filter(item => item.product.id !== productId));
+    setSelectedProducts(prev => prev.filter(item => item.product.idProduct !== productId));
   };
 
   const clearOrder = () => {
@@ -142,7 +95,7 @@ const OrderModal = ({ onClose }: OrderModalProps) => {
     setSearchCategory("");
   };
 
-  const subtotalPEN = selectedProducts.reduce((sum, item) => sum + (item.product.pricePEN * item.quantity), 0);
+  const subtotalPEN = selectedProducts.reduce((sum, item) => sum + (item.product.priceProduct * item.quantity), 0);
   const taxPEN = subtotalPEN * 0.17;
   const totalPEN = subtotalPEN + taxPEN;
 
@@ -202,21 +155,21 @@ const OrderModal = ({ onClose }: OrderModalProps) => {
                   <tbody className="bg-white divide-y divide-gray-200">
                     {filteredComponents.length > 0 ? (
                       filteredComponents.map(component => {
-                        const selectedItem = selectedProducts.find(item => item.product.id === component.id);
+                        const selectedItem = selectedProducts.find(item => item.product.idProduct === component.idProduct);
                         const quantity = selectedItem ? selectedItem.quantity : 0;
                         
                         return (
-                          <tr key={component.id} className="hover:bg-gray-50">
+                          <tr key={component.idProduct} className="hover:bg-gray-50">
                             <td className="px-4 py-3 whitespace-nowrap">
-                              <div className="font-medium text-gray-900">{component.name}</div>
-                              <div className="text-xs text-gray-500">{component.category}</div>
+                              <div className="font-medium text-gray-900">{component.nameProduct}</div>
+                              <div className="text-xs text-gray-500">{component.category.nameCategory}</div>
                             </td>
                             <td className={`px-4 py-3 text-center whitespace-nowrap ${
-                              component.stock > 5 ? "text-green-600" : "text-yellow-600"
+                              component.quantityProduct > 5 ? "text-green-600" : "text-yellow-600"
                             }`}>
-                              {component.stock} {component.stock > 5 ? 'available' : 'out of stock'}
+                              {component.quantityProduct} {component.quantityProduct > 5 ? 'available' : 'out of stock'}
                             </td>
-                            <td className="px-4 py-3 text-right whitespace-nowrap font-mono">S/ {component.pricePEN.toFixed(2)}</td>
+                            <td className="px-4 py-3 text-right whitespace-nowrap font-mono">S/ {component.priceProduct.toFixed(2)}</td>
                             <td className="px-4 py-3 whitespace-nowrap">
                               <div className="flex justify-center">
                                 <div className="flex items-center border border-gray-300 rounded-md">
@@ -237,9 +190,9 @@ const OrderModal = ({ onClose }: OrderModalProps) => {
                                     type="button"
                                     onClick={() => handleQuantityChange(component, 1)}
                                     className={`px-2 py-1 ${
-                                      quantity < component.stock ? "text-gray-600 hover:bg-gray-100" : "text-gray-300 cursor-not-allowed"
+                                      quantity < component.quantityProduct ? "text-gray-600 hover:bg-gray-100" : "text-gray-300 cursor-not-allowed"
                                     }`}
-                                    disabled={quantity >= component.stock}
+                                    disabled={quantity >= component.quantityProduct}
                                   >
                                     <FiPlus size={14} />
                                   </button>
@@ -269,15 +222,15 @@ const OrderModal = ({ onClose }: OrderModalProps) => {
                   <>
                     <div className="flex-grow overflow-y-auto max-h-64 space-y-3 mb-4">
                       {selectedProducts.map(item => (
-                        <div key={item.product.id} className="flex justify-between items-center p-2 bg-gray-50 rounded">
+                        <div key={item.product.idProduct} className="flex justify-between items-center p-2 bg-gray-50 rounded">
                           <div className="flex-1 min-w-0">
-                            <p className="text-sm font-medium truncate">{item.product.name}</p>
-                            <p className="text-xs text-gray-500">x{item.quantity} @ S/ {item.product.pricePEN.toFixed(2)}</p>
+                            <p className="text-sm font-medium truncate">{item.product.nameProduct}</p>
+                            <p className="text-xs text-gray-500">x{item.quantity} @ S/ {item.product.priceProduct.toFixed(2)}</p>
                           </div>
                           <div className="flex items-center space-x-2">
-                            <span className="font-mono text-sm">S/ {(item.product.pricePEN * item.quantity).toFixed(2)}</span>
+                            <span className="font-mono text-sm">S/ {(item.product.priceProduct * item.quantity).toFixed(2)}</span>
                             <button
-                              onClick={() => removeProduct(item.product.id)}
+                              onClick={() => removeProduct(item.product.idProduct)}
                               className="text-red-500 hover:text-red-700 p-1"
                               aria-label="Eliminar producto"
                             >
