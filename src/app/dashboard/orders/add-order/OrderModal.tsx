@@ -1,7 +1,7 @@
 'use client';
 import { useEffect, useState, useRef } from 'react';
 import { FiX, FiPlus, FiMinus, FiShoppingCart, FiUser, FiSearch, FiTrash2 } from 'react-icons/fi';
-import * as GateWayAPI from '@/service/gatewayApi'; // Asegúrate de importar tu API
+import * as GateWayAPI from '@/service/gatewayApiOrder'; // Asegúrate de importar tu API
 import { Component } from 'lucide-react';
 
 interface Product {

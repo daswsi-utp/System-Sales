@@ -2,7 +2,7 @@
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import * as GateWayAPI from '@/service/gatewayApi';
+import * as GateWayAPI from '@/service/gatewayApiOrder';
 
 const statusConfig: Record<GateWayAPI.OrderStatus, {
   bg: string;

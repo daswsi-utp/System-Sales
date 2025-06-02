@@ -3,7 +3,7 @@ import Link from 'next/link';
 import OrderForm from './components/OrderForm';
 import OrderButtons from './components/OrderButtons';
 import { useState, useEffect } from 'react';
-import * as GateWayAPI from '../../../service/gatewayApi';
+import * as GateWayAPI from '../../../service/gatewayApiOrder';
 
 const statusConfig: Record<GateWayAPI.OrderStatus, {
   bg: string;
