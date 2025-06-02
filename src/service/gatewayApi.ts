@@ -57,6 +57,7 @@ export interface SaleRequest{
     tax: number;
     registryId: number;
     products: ProductSaleRequest[];
+    grossIncome: number;
 }
 export const saveRegistry = async(registryData : RegistryRequest) =>{
     const res = await axios.post(`${GATEWAY_URL}/api/registry/save`, registryData);
@@ -66,7 +67,7 @@ export const getAllProducts = async(): Promise<Product[]> =>{
     const res = await axios.get<Product[]>(`${GATEWAY_URL}/api/products`);
     return res.data;
 }
-export const saveSaleWithRegistry = async(registryData: RegistryRequest, saleData: Omit<SaleRequest, 'registryID'>) =>{
+export const saveSaleWithRegistry = async(registryData: RegistryRequest, saleData: Omit<SaleRequest, 'registryId'>) =>{
     try {
         const createRegistry = await saveRegistry(registryData);
         const registryId = createRegistry.idRegistry;

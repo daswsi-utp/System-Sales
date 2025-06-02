@@ -22,8 +22,10 @@ const OrderModal = ({ onClose }: OrderModalProps) => {
     'Out of Stock': 'bg-red-100 text-red-800',
   };
   
-  
-  const [orderDate, setOrderDate] = useState(new Date().toISOString().split('T')[0]);
+  //THIS IS STATIC VALUE USED FOR TESTING. SALESMAN IDS WILL BE DYNAMIC BUT THEY WILL BE IMPLEMENTED LATER
+  const userId = 1;  
+
+  const [saleDate, setSaleDate] = useState(new Date().toISOString().split('T')[0]);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchCategory, setSearchCategory] = useState("");
   const [selectedProducts, setSelectedProducts] = useState<{product: GateWayAPI.Product, quantity: number}[]>([]);
@@ -46,6 +48,33 @@ const OrderModal = ({ onClose }: OrderModalProps) => {
     component.category.toLowerCase().includes(searchTerm.toLowerCase())
   );
   */
+ const handleSavingSale = async () =>{
+  const registryData: GateWayAPI.RegistryRequest = {
+    type: "Sale",
+    registrationDate: new Date(saleDate).toISOString(),
+    user: {
+      idUser: userId,
+    },
+    templateUrl: "test.pdf"
+  };
+  const saleData = {
+    sum: totalPEN,
+    tax: taxPEN,
+    products: selectedProducts.map(items => ({
+      productId: items.product.idProduct,
+      quantity: items.quantity
+    })),
+    grossIncome: subtotalPEN
+  };
+  console.log("TRIED");
+  try{
+    const res = await GateWayAPI.saveSaleWithRegistry(registryData, saleData);
+    console.log("Registered sale: ", res);
+    clearOrder();
+  } catch(error){
+    console.error("Failed sale registration", error);
+  }
+ };
 
   function filterProducts(items: GateWayAPI.Product[], searchTerm?: string | null, searchCategory?: string | null): GateWayAPI.Product[]{
     const filteredItems = items.filter(item => {
@@ -89,7 +118,7 @@ const OrderModal = ({ onClose }: OrderModalProps) => {
   };
 
   const clearOrder = () => {
-    setOrderDate(new Date().toISOString().split('T')[0]);///
+    setSaleDate(new Date().toISOString().split('T')[0]);///
     setSelectedProducts([]);
     setSearchTerm("");
     setSearchCategory("");
@@ -278,13 +307,7 @@ const OrderModal = ({ onClose }: OrderModalProps) => {
           <div className="flex space-x-3">
             <button
               type="button"
-              onClick={() => {
-                console.log({
-                  date: orderDate,
-                  products: selectedProducts,
-                  totalPEN: totalPEN * 1.00
-                });
-              }}
+              onClick={() => {handleSavingSale()}}
               className={`px-4 py-2 flex items-center gap-2 rounded-md transition-colors ${
                 selectedProducts.length > 0
                   ? "bg-blue-600 text-white hover:bg-blue-700"
