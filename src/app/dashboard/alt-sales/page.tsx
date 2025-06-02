@@ -1,16 +1,25 @@
 'use client';
 import { useState } from 'react';
 import { FiX, FiPlus, FiMinus, FiShoppingCart, FiUser, FiSearch, FiCalendar, FiTrash2 } from 'react-icons/fi';
-import axios from '@/app/dashboard/inventory/utils/axiosInstance';
+import axios from 'axios';
 import { Timestamp } from 'next/dist/server/lib/cache-handlers/types';
-
-interface Product {
+    
+interface Brand{
   id: number;
-  category: string;
-  brand: string;
-  name: string;
-  pricePEN: number;
-  stock: number;
+  nameBrand: string;
+}
+
+interface Category{
+  id: number;
+  nameCategory: string;
+}
+interface Product {
+  idProduct: number;
+  nameProduct: string
+  priceProduct: number;
+  quantityProduct: number;
+  category: Category;
+  brand: Brand;
 }
 interface RegistrySale{
   type: string;
@@ -40,6 +49,14 @@ async function getData(): Promise<Product[]> {
       return [];
     }
 };
+async function getAllProducts(): Promise<Product[]>{
+  try{
+    const res = await axios.get(`${process.env.NEXT_PUBLIC_GATEWAY_URL}/api/products/all`);
+    return res.data.map((item: any)=>{
+
+    })
+  }
+}
 
 const OrderModal = ({ onClose }: OrderModalProps) => {
   const salesStaff = [
