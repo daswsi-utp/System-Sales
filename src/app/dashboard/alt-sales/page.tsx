@@ -35,6 +35,7 @@ const OrderModal = ({ onClose }: OrderModalProps) => {
   const [saleDate, setSaleDate] = useState(new Date().toISOString().split('T')[0]);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchCategory, setSearchCategory] = useState("");
+  const [searchBrand, setSearchBrand] = useState("");
   const [selectedProducts, setSelectedProducts] = useState<{product: GateWayAPI.Product, quantity: number}[]>([]);
   const [products, setProducts] = useState<GateWayAPI.Product[]>([]);
   //const salesStaff = vendors;
@@ -51,6 +52,7 @@ const OrderModal = ({ onClose }: OrderModalProps) => {
     fetchProducts();
   },[]);
 
+  const filteredComponents = products;
   /*useEffect(()=>{
     const fetchVendors = async() => {
       try{
@@ -95,16 +97,18 @@ const OrderModal = ({ onClose }: OrderModalProps) => {
   }
  };
 
-  function filterProducts(items: GateWayAPI.Product[], searchTerm?: string | null, searchCategory?: string | null): GateWayAPI.Product[]{
-    const filteredItems = items.filter(item => {
-      const nameMatches = !searchTerm || item.nameProduct.toLowerCase().includes(searchTerm.toLowerCase());
-      const categoryMatches = !searchCategory || item.category.nameCategory.toLowerCase().includes(searchCategory.toLowerCase());
-      return nameMatches && categoryMatches;
-    })
-    return filteredItems;
-  }
+  useEffect(()=>{
+    const fetcthFilteredProducts = async() => {
+      try{
+        const data = await GateWayAPI.compoundSearch(searchTerm, searchCategory, searchBrand);
+        setProducts(data);
+      } catch(error){
+        console.error("Failed product data retrieval", error);
+      }
+    };
+    fetcthFilteredProducts();
+  }, [searchTerm, searchCategory, searchBrand]);
 
-  const filteredComponents = filterProducts(products, searchTerm, searchCategory);
 
   const handleQuantityChange = (product: GateWayAPI.Product, change: number) => {
     setSelectedProducts(prev => {
@@ -158,7 +162,7 @@ const OrderModal = ({ onClose }: OrderModalProps) => {
 
         <div className="p-6 overflow-y-auto flex-grow">
           <div className="flex flex-col md:flex-row gap-4 p-4">
-            <div className="mb-6 space-y-1 w-full md:w-1/2">
+            <div className="mb-6 space-y-1 w-full md:w-1/3">
               <label className="block text-sm font-medium text-gray-700">SEARCH</label>
               <div className="relative">
                 <FiSearch className="absolute left-3 top-3 text-gray-400" />
@@ -171,7 +175,7 @@ const OrderModal = ({ onClose }: OrderModalProps) => {
                 />
               </div>
             </div>
-            <div className="mb-6 space-y-1 w-full md:w-1/2">
+            <div className="mb-6 space-y-1 w-full md:w-1/3">
               <label className="block text-sm font-medium text-gray-700">BRAND</label>
               <div className="relative">
                 <FiSearch className="absolute left-3 top-3 text-gray-400" />
@@ -179,11 +183,27 @@ const OrderModal = ({ onClose }: OrderModalProps) => {
                   type="text"
                   placeholder="Search by brand's name"
                   className="w-full p-2 pl-10 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  value={searchCategory}
-                  onChange={(e) => setSearchCategory(e.target.value)}
+                  value={searchBrand}
+                  onChange={(e) => setSearchBrand(e.target.value)}
                 />
               </div>
             </div>
+          <div className="mb-6 space-y-1 w-full md:w-1/3">
+            <label className="block text-sm font-medium text-gray-700">CATEGORY</label>
+            <div className="relative">
+              <FiUser className="absolute left-3 top-3 text-gray-400" />
+              <select
+                value={searchCategory}
+                onChange={(e) => setSearchCategory(e.target.value)}
+                className="w-full p-2 pl-10 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              >
+                <option value="">Select a category</option>
+                {categories.map(category => (
+                  <option key={category.id} value={category.id}>{category.name}</option>
+                ))}
+              </select>
+            </div>
+          </div>
           </div>
           
         

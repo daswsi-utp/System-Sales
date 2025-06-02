@@ -73,11 +73,11 @@ export const getProductsByName = async(name: string): Promise<Product[]> =>{
 }
 
 export const getProductsByCategory = async(categoryName: string): Promise<Product[]> =>{
-  const res = await axios.get<Product[]>(`${GATEWAY_URL}/api/products/${category}`);
+  const res = await axios.get<Product[]>(`${GATEWAY_URL}/api/products/${categoryName}`);
   return res.data;
 }
 export const getProductByBrand = async(brandName: string): Promise<Product[]> => {
-  const res = await.axios.get<Product[]>(`${GATEWAY_URL}/api/products/${category}`);
+  const res = await axios.get<Product[]>(`${GATEWAY_URL}/api/products/${brandName}`);
   return res.data;
 }
 export const getAllUsers = async(): Promise<User[]> =>{
@@ -91,6 +91,16 @@ export const saveRegistry = async(registryData : RegistryRequest) =>{
 export const getAllProducts = async(): Promise<Product[]> =>{
     const res = await axios.get<Product[]>(`${GATEWAY_URL}/api/products`);
     return res.data;
+}
+export const compoundSearch = async(name?: string, categoryName?: string, brandName?: string): Promise<Product[]> =>{
+  const params: any = {};
+  if(name) params.name = name;
+  if(categoryName) params.categoryName = categoryName;
+  if(brandName) params.brandName = brandName;
+  const res = await axios.get<Product[]>(`${GATEWAY_URL}/api/products/compoundSearch`, {params});
+  return res.data;
+  
+
 }
 export const saveSaleWithRegistry = async(registryData: RegistryRequest, saleData: Omit<SaleRequest, 'registryId'>) =>{
     try {
