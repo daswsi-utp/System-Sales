@@ -2,6 +2,101 @@ import axios from 'axios';
 
 const GATEWAY_URL = process.env.NEXT_PUBLIC_GATEWAY_URL || 'http://localhost:8080';
 
+export interface Warehouse {
+  id: number;
+  nameWarehouse: string;
+  address: string;
+}
+
+export interface Provider {
+  id: number;
+  nameProvider: string;
+  ruc: string;
+}
+
+export interface User {
+  name: string;
+  lastName: string;
+  email: string;
+}
+
+export interface Registry {
+  type: string;
+  registrationDate: string;
+  user: User;
+  templateUrl: string;
+}
+
+export interface RelatedProduct {
+  productId: number;
+  productName: string;
+  price: number;
+  quantity: number;
+}
+
+export interface OrderResponse {
+  id: number; // Asegúrate de incluir el ID de la orden
+  warehouse: Warehouse;
+  provider: Provider;
+  registry: Registry;
+  relatedProducts: RelatedProduct[];
+  sum: number;
+  status: number; // Cambia a number para representar el smallint
+}
+
+export const getAllOrders = async (): Promise<OrderResponse[]> => {
+  const res = await axios.get<OrderResponse[]>(`${GATEWAY_URL}/api/order/all`);
+  return res.data;
+}
+
+export const getOrdersById = async (id: string): Promise<OrderResponse> => {
+  const res = await axios.get<OrderResponse>(`${GATEWAY_URL}/api/order/find/${id}`);
+  return res.data;
+};
+
+export const saveOrder = async (orderData: any) => {
+  const res = await axios.post(`${GATEWAY_URL}/api/order/create`, orderData);
+  return res.data;
+}
+
+
+export enum OrderStatus {
+  Completed = 1,
+  Pending = 2,
+  Cancelled = 3,
+}
+
+
+export async function updateOrderStatus(orderId: string, status: number) {
+  return axios.put(`${GATEWAY_URL}/api/order/update/${orderId}`, { status }); // ✅ cuerpo con clave
+}
+
+
+
+export const getOrderStatusName = (status: OrderStatus): string => {
+  switch (status) {
+    case OrderStatus.Completed:
+      return 'Completado';
+    case OrderStatus.Pending:
+      return 'Pendiente';
+    case OrderStatus.Cancelled:
+      return 'Cancelado';
+    default:
+      return 'Desconocido';
+  }
+};
+
+
+
+
+
+
+
+/*
+import axios from 'axios';
+
+const GATEWAY_URL = process.env.NEXT_PUBLIC_GATEWAY_URL || 'http://localhost:8080';
+
 // Interfaces comunes (las mantengo igual)
 export interface Brand {
   id: number;
@@ -149,3 +244,5 @@ export const updateOrderStatus = async (orderId: number, newStatus: string) => {
   const res = await axios.patch(`${GATEWAY_URL}/api/orders/${orderId}/status`, { status: newStatus });
   return res.data;
 };
+
+*/

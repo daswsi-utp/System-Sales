@@ -5,21 +5,33 @@ import OrderButtons from './components/OrderButtons';
 import { useState, useEffect } from 'react';
 import * as GateWayAPI from '../../../service/gatewayApi';
 
-const statusStyles = {
-  Completed: {
+const statusConfig: Record<GateWayAPI.OrderStatus, {
+  bg: string;
+  text: string;
+  dot: string;
+  activeBg?: string;
+  activeText?: string;
+}> = {
+  [GateWayAPI.OrderStatus.Completed]: {
     bg: 'bg-green-100',
     text: 'text-green-800',
     dot: 'bg-green-500',
+    activeBg: 'bg-green-600',
+    activeText: 'text-white',
   },
-  Pending: {
+  [GateWayAPI.OrderStatus.Pending]: {
     bg: 'bg-yellow-100',
     text: 'text-yellow-800',
     dot: 'bg-yellow-500',
+    activeBg: 'bg-yellow-600',
+    activeText: 'text-white',
   },
-  Cancelled: {
+  [GateWayAPI.OrderStatus.Cancelled]: {
     bg: 'bg-red-100',
     text: 'text-red-800',
     dot: 'bg-red-500',
+    activeBg: 'bg-red-600',
+    activeText: 'text-white',
   },
 };
 
@@ -56,31 +68,30 @@ export default function OrdersPage() {
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Order</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID Order</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Seller</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Warehouse</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Provider</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Products</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {orders.map((order) => {
-                  const statusStyle = statusStyles[order.status as keyof typeof statusStyles] || statusStyles.Pending;
-                  const userName = order.registry?.user ? 
-                    `${order.registry.user.name} ${order.registry.user.lastName}` : 
+                  const statusStyle = statusConfig[order.status as GateWayAPI.OrderStatus] || statusConfig[GateWayAPI.OrderStatus.Pending];
+                  const userName = order.registry?.user ?
+                    `${order.registry.user.name} ${order.registry.user.lastName}` :
                     'N/A';
-                  
+
                   return (
-                    <tr key={order.idOrder} className="hover:bg-gray-50 transition-colors duration-150">
+                    <tr key={order.id} className="hover:bg-gray-50 transition-colors duration-150">
                       <td className="px-6 py-4 whitespace-nowrap">
                         <Link
-                          href={`/dashboard/orders/${order.idOrder}`}
+                          href={`/dashboard/orders/${order.id}`} // Asegúrate de que esto sea correcto
                           className="text-blue-600 hover:text-blue-800 hover:underline font-medium"
                         >
-                          #{order.idOrder}
+                          {order.id} {/* Aquí se debe mostrar el ID de la orden */}
                         </Link>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
@@ -97,22 +108,13 @@ export default function OrdersPage() {
                           ? new Date(order.registry.registrationDate).toLocaleDateString()
                           : 'N/A'}
                       </td>
-                      <td className="px-6 py-4 text-sm text-gray-900">
-                        <div className="flex flex-col">
-                          {order.relatedProducts?.map(product => (
-                            <span key={product.productId}>
-                              {product.productName} (x{product.quantity})
-                            </span>
-                          ))}
-                        </div>
-                      </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                         S/ {order.sum?.toFixed(2) ?? '0.00'}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className={`flex items-center ${statusStyle.bg} ${statusStyle.text} px-3 py-1 rounded-full text-xs font-medium`}>
                           <span className={`w-2 h-2 rounded-full ${statusStyle.dot} mr-2`}></span>
-                          {order.status}
+                          {GateWayAPI.getOrderStatusName(order.status)}
                         </div>
                       </td>
                     </tr>
@@ -150,6 +152,8 @@ export default function OrdersPage() {
     </div>
   );
 }
+
+
 
 
 /*'use client';
