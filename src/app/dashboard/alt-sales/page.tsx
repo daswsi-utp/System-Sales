@@ -9,13 +9,19 @@ interface OrderModalProps {
 }
 
 const OrderModal = ({ onClose }: OrderModalProps) => {
-  const salesStaff = [
-    { id: 1, name: "Carlos Mendoza" },
-    { id: 2, name: "Ana Torres" },
-    { id: 3, name: "Luis Ramírez" },
-    { id: 4, name: "Sofía Gutierrez" },
-  ];
 
+
+  const categories : GateWayAPI.Category[] = [
+    {id: 1, name: 'Processor'},
+    {id: 2, name: 'Video Graphics'},
+    {id: 3, name: 'Peripherics'},
+    {id: 4, name: 'Motherboards'},
+    {id: 5, name: 'RAM memory'},
+    {id: 6, name: 'Store'},
+    {id: 7, name: 'Power Suppliers'},
+    {id: 8, name: 'Cabinets'},
+  ];
+    
   const statusStyles = {
     'In Stock': 'bg-green-100 text-green-800',
     'Low Stock': 'bg-yellow-100 text-yellow-800',
@@ -25,11 +31,13 @@ const OrderModal = ({ onClose }: OrderModalProps) => {
   //THIS IS STATIC VALUE USED FOR TESTING. SALESMAN IDS WILL BE DYNAMIC BUT THEY WILL BE IMPLEMENTED LATER
   const userId = 1;  
 
+  //const [vendors, setVendors] = useState<GateWayAPI.User[]>([]);
   const [saleDate, setSaleDate] = useState(new Date().toISOString().split('T')[0]);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchCategory, setSearchCategory] = useState("");
   const [selectedProducts, setSelectedProducts] = useState<{product: GateWayAPI.Product, quantity: number}[]>([]);
   const [products, setProducts] = useState<GateWayAPI.Product[]>([]);
+  //const salesStaff = vendors;
 
   useEffect(()=>{
     const fetchProducts = async() =>{
@@ -43,6 +51,17 @@ const OrderModal = ({ onClose }: OrderModalProps) => {
     fetchProducts();
   },[]);
 
+  /*useEffect(()=>{
+    const fetchVendors = async() => {
+      try{
+        const data = await GateWayAPI.getAllUsers();
+        setVendors(data);
+      }catch(error){
+        console.error("Failed to load vendors", error);
+      };
+    }
+    fetchVendors();
+  }, []);*/
   /*const filteredComponents = pcComponents.filter(component =>
     component.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     component.category.toLowerCase().includes(searchTerm.toLowerCase())

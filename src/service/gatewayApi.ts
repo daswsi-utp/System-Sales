@@ -19,6 +19,13 @@ export interface Product {
   brand: Brand;
 }
 
+export interface User{
+  id: number;
+  name: string;
+  lastName: string;
+  email: string;
+}
+
 export interface UserRegistry{
     name: string;
     lastName: string;
@@ -58,6 +65,24 @@ export interface SaleRequest{
     registryId: number;
     products: ProductSaleRequest[];
     grossIncome: number;
+}
+
+export const getProductsByName = async(name: string): Promise<Product[]> =>{
+  const res = await axios.get<Product[]>(`${GATEWAY_URL}/api/products/search/${name}`);
+  return res.data;
+}
+
+export const getProductsByCategory = async(categoryName: string): Promise<Product[]> =>{
+  const res = await axios.get<Product[]>(`${GATEWAY_URL}/api/products/${category}`);
+  return res.data;
+}
+export const getProductByBrand = async(brandName: string): Promise<Product[]> => {
+  const res = await.axios.get<Product[]>(`${GATEWAY_URL}/api/products/${category}`);
+  return res.data;
+}
+export const getAllUsers = async(): Promise<User[]> =>{
+  const res = await axios.get<User[]>(`${GATEWAY_URL}/api/users`);
+  return res.data;
 }
 export const saveRegistry = async(registryData : RegistryRequest) =>{
     const res = await axios.post(`${GATEWAY_URL}/api/registry/save`, registryData);
