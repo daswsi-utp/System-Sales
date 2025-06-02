@@ -1,40 +1,33 @@
 import axios from 'axios';
-
 const GATEWAY_URL = process.env.NEXT_PUBLIC_GATEWAY_URL || 'http://localhost:8080';
-
 export interface Warehouse {
   id: number;
   nameWarehouse: string;
   address: string;
 }
-
 export interface Provider {
   id: number;
   nameProvider: string;
   ruc: string;
 }
-
 export interface User {
   id: number
   name: string;
   lastName: string;
   email: string;
 }
-
 export interface Registry {
   type: string;
   registrationDate: string;
   user: User;
   templateUrl: string;
 }
-
 export interface RelatedProduct {
   productId: number;
   productName: string;
   price: number;
   quantity: number;
 }
-
 export interface OrderResponse {
   id: number;
   warehouse: Warehouse;
@@ -44,83 +37,103 @@ export interface OrderResponse {
   sum: number;
   status: number; 
 }
-
-
 export interface UserResponse {
   id: number;
   name: string;
   lastName: string;
   email: string;
 }
-
 export interface Product {
   idProduct: number;
   nameProduct: string;
   priceProduct: number;
   quantityProduct: number;
 }
-
 export const getAllWarehouses = async (): Promise<Warehouse[]> => {
   try {
     const res = await axios.get<Warehouse[]>(`${GATEWAY_URL}/api/order/warehouses`);
     return res.data;
   } catch (error) {
     console.error("Error fetching warehouses:", error);
-    throw error; // Lanza el error para que pueda ser manejado en el useEffect
+    throw error; 
   }
 };
-
 export const getAllProviders = async (): Promise<Provider[]> => {
   try {
     const res = await axios.get<Provider[]>(`${GATEWAY_URL}/api/order/providers`);
     return res.data;
   } catch (error) {
     console.error("Error fetching providers:", error);
-    throw error; // Lanza el error para que pueda ser manejado en el useEffect
+    throw error; 
   }
 };
-
-
-
 export const getAvailableProducts = async (): Promise<Product[]> => {
-  const res = await axios.get<Product[]>(`${GATEWAY_URL}/api/products`); // Asegúrate de que esta URL sea correcta
+  const res = await axios.get<Product[]>(`${GATEWAY_URL}/api/products`); 
   return res.data;
 };
-
 export const getAllUsers = async (): Promise<UserResponse[]> => {
-  const res = await axios.get<UserResponse[]>(`${GATEWAY_URL}/api/users`); // Asegúrate de que esta URL sea correcta
+  const res = await axios.get<UserResponse[]>(`${GATEWAY_URL}/api/users`); 
   return res.data;
 };
-
 
 export const getAllOrders = async (): Promise<OrderResponse[]> => {
   const res = await axios.get<OrderResponse[]>(`${GATEWAY_URL}/api/order/all`);
   return res.data;
 }
-
 export const getOrdersById = async (id: string): Promise<OrderResponse> => {
   const res = await axios.get<OrderResponse>(`${GATEWAY_URL}/api/order/find/${id}`);
   return res.data;
 };
-
+/*
 export const saveOrder = async (orderData: any) => {
-  const res = await axios.post(`${GATEWAY_URL}/api/order/create`, orderData);
-  return res.data;
-}
+  try {
+    const response = await axios.post(`${GATEWAY_URL}/api/order/create`, orderData);
+    return response.data; 
+  } catch (error) {
+    console.error("Error saving order:", error);
+    throw error; 
+  }
+};*/
+export const getUserIdByName = async (name: string): Promise<number> => {
+  try {
+    const res = await axios.get<UserResponse[]>(`${GATEWAY_URL}/api/users`);
+    const user = res.data.find(user => user.name === name); 
+    if (user) {
+      return user.id; // Retorna el ID del usuario encontrado
+    } else {
+      throw new Error("User  not found");
+    }
+  } catch (error) {
+    console.error("Error fetching user by name:", error);
+    throw error; 
+  }
+};
 
+export const saveOrder = async (orderData: {
+  warehouse: { id: number };
+  provider: { id: number };
+  registryId: number;
+  products: { productId: number; quantity: number }[];
+  sum: number;
+  status: number;
+}) => {
+  try {
+    const res = await axios.post(`${GATEWAY_URL}/api/order/create`, orderData);
+    return res.data;
+  } catch (error) {
+    console.error("Error saving order:", error);
+    throw error; 
+  }
+};
 
 export enum OrderStatus {
   Completed = 1,
   Pending = 2,
   Cancelled = 3,
 }
-
-
 export async function updateOrderStatus(orderId: string, status: number) {
-  return axios.put(`${GATEWAY_URL}/api/order/update/${orderId}`, { status }); // ✅ cuerpo con clave
+  return axios.put(`${GATEWAY_URL}/api/order/update/${orderId}`, { status }); 
 }
-
-
 
 export const getOrderStatusName = (status: OrderStatus): string => {
   switch (status) {
@@ -214,7 +227,7 @@ export interface Provider {
 export interface ProductOrderRequest {
   productId: number;
   quantity: number;
-  price?: number; // Opcional según tu JSON
+  price?: number; 
 }
 
 export interface OrderRequest {

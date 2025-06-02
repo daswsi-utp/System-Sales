@@ -260,7 +260,7 @@ const OrderModal = ({ onClose }: OrderModalProps) => {
                                     onTouchStart={() => startChangingQuantity(1, component)} // Para móviles
                                     onTouchEnd={stopChangingQuantity} // Para móviles
                                     className={`px-2 py-1 ${quantity < component.quantityProduct ? "text-gray-600 hover:bg-gray-100" : "text-gray-300 cursor-not-allowed"}`}
-                                    disabled={quantity >= component.quantityProduct}
+                                    disabled={quantity >= 500}
                                   >
                                     <FiPlus size={14} />
                                   </button>
@@ -350,15 +350,26 @@ const OrderModal = ({ onClose }: OrderModalProps) => {
             </button>
             <button
               type="button"
-              onClick={() => {
-                console.log({
-                  staff: selectedStaff,
-                  house: selectedWarehouse,
-                  vider: selectedProvider,
-                  products: selectedProducts,
-                  totalPEN: totalPEN * 1.00
-                });
-                onClose();
+              onClick={async () => {
+                const orderData = {
+                  warehouse: { id: Number(selectedWarehouse) }, 
+                  provider: { id: Number(selectedProvider) },   
+                  registryId: 1, 
+                  products: selectedProducts.map(item => ({
+                    productId: item.product.idProduct,
+                    quantity: item.quantity,
+                  })),
+                  sum: totalPEN * 1.00, 
+                  status: GateWayAPI.OrderStatus.Pending, 
+                };
+
+                try {
+                  await GateWayAPI.saveOrder(orderData);
+                  console.log("Order saved successfully");
+                  onClose(); 
+                } catch (error) {
+                  console.error("Error saving order:", error);
+                }
               }}
               className={`px-4 py-2 flex items-center gap-2 rounded-md transition-colors ${selectedProducts.length > 0 && selectedStaff && selectedWarehouse && selectedProvider
                 ? "bg-blue-600 text-white hover:bg-blue-700"
@@ -369,6 +380,7 @@ const OrderModal = ({ onClose }: OrderModalProps) => {
               <FiShoppingCart />
               <span>Register order</span>
             </button>
+
           </div>
         </div>
       </div>
