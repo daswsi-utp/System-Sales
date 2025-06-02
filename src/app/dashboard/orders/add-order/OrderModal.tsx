@@ -49,7 +49,6 @@ const OrderModal = ({ onClose }: OrderModalProps) => {
   const [selectedStaff, setSelectedStaff] = useState("");
   const [selectedWarehouse, setSelectedWarehouse] = useState("");
   const [selectedProvider, setSelectedProvider] = useState("");
-  const [orderDate, setOrderDate] = useState(new Date().toISOString().split('T')[0]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedProducts, setSelectedProducts] = useState<{ product: Product, quantity: number }[]>([]);
 
@@ -108,7 +107,6 @@ const OrderModal = ({ onClose }: OrderModalProps) => {
     setSelectedStaff("");
     setSelectedWarehouse("");
     setSelectedProvider("");
-    setOrderDate(new Date().toISOString().split('T')[0]);
     setSelectedProducts([]);
     setSearchTerm("");
   };
@@ -191,19 +189,7 @@ const OrderModal = ({ onClose }: OrderModalProps) => {
               </div>
             </div>
 
-            <div className="space-y-1">
-              <label className="block text-sm font-medium text-gray-700">DATE *</label>
-              <div className="relative">
-                <FiCalendar className="absolute left-3 top-3 text-gray-400" />
-                <input
-                  type="date"
-                  value={orderDate}
-                  onChange={(e) => setOrderDate(e.target.value)}
-                  className="w-full p-2 pl-10 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  required
-                />
-              </div>
-            </div>
+
           </div>
 
           <div className="mb-6 space-y-1">
@@ -367,7 +353,6 @@ const OrderModal = ({ onClose }: OrderModalProps) => {
                   staff: selectedStaff,
                   house: selectedWarehouse,
                   vider: selectedProvider,
-                  date: orderDate,
                   products: selectedProducts,
                   totalPEN: totalPEN * 1.00
                 });
