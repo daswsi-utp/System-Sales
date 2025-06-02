@@ -44,6 +44,42 @@ export interface OrderResponse {
   status: number; // Cambia a number para representar el smallint
 }
 
+
+export interface UserResponse {
+  id: number;
+  name: string;
+  lastName: string;
+  email: string;
+}
+
+export interface Product {
+  idProduct: number;
+  nameProduct: string;
+  priceProduct: number;
+  quantityProduct: number;
+}
+
+export const getAllWarehouses = async (): Promise<Warehouse[]> => {
+  const res = await axios.get<Warehouse[]>(`${GATEWAY_URL}/api/warehouses`); // Asegúrate de que esta URL sea correcta
+  return res.data;
+};
+
+export const getAllProviders = async (): Promise<Provider[]> => {
+  const res = await axios.get<Provider[]>(`${GATEWAY_URL}/api/providers`); // Asegúrate de que esta URL sea correcta
+  return res.data;
+};
+
+export const getAvailableProducts = async (): Promise<Product[]> => {
+  const res = await axios.get<Product[]>(`${GATEWAY_URL}/api/products`); // Asegúrate de que esta URL sea correcta
+  return res.data;
+};
+
+export const getAllUsers = async (): Promise<UserResponse[]> => {
+  const res = await axios.get<UserResponse[]>(`${GATEWAY_URL}/api/users`); // Asegúrate de que esta URL sea correcta
+  return res.data;
+};
+
+
 export const getAllOrders = async (): Promise<OrderResponse[]> => {
   const res = await axios.get<OrderResponse[]>(`${GATEWAY_URL}/api/order/all`);
   return res.data;

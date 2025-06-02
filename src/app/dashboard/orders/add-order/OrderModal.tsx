@@ -188,8 +188,6 @@ const OrderModal = ({ onClose }: OrderModalProps) => {
                 </select>
               </div>
             </div>
-
-
           </div>
 
           <div className="mb-6 space-y-1">
