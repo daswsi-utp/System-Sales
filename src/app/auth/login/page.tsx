@@ -1,5 +1,5 @@
 import LoginForm from "./LoginForm";
-import SocialButtons from "./SocialButtons";
+
 import Image from "next/image";
 import imagelogin from "@/utils/imagelogin.jpg";
 import Link from "next/link";
@@ -19,9 +19,6 @@ export default function LoginPage() {
                     <p className="text-gray-400 mb-8">Welcome back! Please enter your details</p>
 
                     <LoginForm />
-                    <div className="my-6">
-                        <SocialButtons />
-                    </div>
 
                     <p className="text-center text-gray-400">
                         Dont have an account?{" "}

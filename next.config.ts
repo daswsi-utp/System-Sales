@@ -1,12 +1,16 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
-  /* config options here */
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  async rewrites() {
+    return [
+      {
+        source: '/api/:path*',
+        destination: 'http://localhost:8090/api/:path*',
+      },
+    ];
+  },
+  typescript: {
+    ignoreBuildErrors: true, // Opcional, solo si necesitas ignorar errores TS
+  },
 };
 
-export default nextConfig;
-module.exports = {
-  typescript: {
-    ignoreBuildErrors: true,
-  },
-}
+module.exports = nextConfig;
