@@ -15,6 +15,7 @@ export interface Provider {
 }
 
 export interface User {
+  id: number
   name: string;
   lastName: string;
   email: string;
@@ -35,13 +36,13 @@ export interface RelatedProduct {
 }
 
 export interface OrderResponse {
-  id: number; // Asegúrate de incluir el ID de la orden
+  id: number;
   warehouse: Warehouse;
   provider: Provider;
   registry: Registry;
   relatedProducts: RelatedProduct[];
   sum: number;
-  status: number; // Cambia a number para representar el smallint
+  status: number; 
 }
 
 
@@ -60,14 +61,26 @@ export interface Product {
 }
 
 export const getAllWarehouses = async (): Promise<Warehouse[]> => {
-  const res = await axios.get<Warehouse[]>(`${GATEWAY_URL}/api/warehouses`); // Asegúrate de que esta URL sea correcta
-  return res.data;
+  try {
+    const res = await axios.get<Warehouse[]>(`${GATEWAY_URL}/api/order/warehouses`);
+    return res.data;
+  } catch (error) {
+    console.error("Error fetching warehouses:", error);
+    throw error; // Lanza el error para que pueda ser manejado en el useEffect
+  }
 };
 
 export const getAllProviders = async (): Promise<Provider[]> => {
-  const res = await axios.get<Provider[]>(`${GATEWAY_URL}/api/providers`); // Asegúrate de que esta URL sea correcta
-  return res.data;
+  try {
+    const res = await axios.get<Provider[]>(`${GATEWAY_URL}/api/order/providers`);
+    return res.data;
+  } catch (error) {
+    console.error("Error fetching providers:", error);
+    throw error; // Lanza el error para que pueda ser manejado en el useEffect
+  }
 };
+
+
 
 export const getAvailableProducts = async (): Promise<Product[]> => {
   const res = await axios.get<Product[]>(`${GATEWAY_URL}/api/products`); // Asegúrate de que esta URL sea correcta

@@ -1,14 +1,14 @@
 'use client';
-import { House } from 'lucide-react';
-import { useState, useRef } from 'react';
-import { FiX, FiPlus, FiMinus, FiShoppingCart, FiUser, FiSearch, FiCalendar, FiTrash2 } from 'react-icons/fi';
+import { useEffect, useState, useRef } from 'react';
+import { FiX, FiPlus, FiMinus, FiShoppingCart, FiUser, FiSearch, FiTrash2 } from 'react-icons/fi';
+import * as GateWayAPI from '@/service/gatewayApi'; // Asegúrate de importar tu API
+import { Component } from 'lucide-react';
 
 interface Product {
-  id: number;
-  category: string;
-  name: string;
-  pricePEN: number;
-  stock: number;
+  idProduct: number;
+  nameProduct: string;
+  priceProduct: number;
+  quantityProduct: number;
 }
 
 interface OrderModalProps {
@@ -16,75 +16,65 @@ interface OrderModalProps {
 }
 
 const OrderModal = ({ onClose }: OrderModalProps) => {
-  const warehouse = [
-    { id: 1, name: "Main Warehouse" },
-    { id: 2, name: "Secondary Warehouse" },
-    { id: 3, name: "Online Storage" },
-    { id: 4, name: "Warehouse Lima" },
-  ];
-  const provider = [
-    { id: 1, name: "Tech Distributors S.A." },
-    { id: 2, name: "PC Parts Perú" },
-    { id: 3, name: "Hardware World" },
-    { id: 4, name: "GlobalTech" },
-  ];
-  const salesStaff = [
-    { id: 1, name: "Panchiro manchiro" },
-    { id: 2, name: "Ana Torres" },
-    { id: 3, name: "Luis Ramírez" },
-    { id: 4, name: "Sofía Gutierrez" },
-  ];
-
-  const pcComponents: Product[] = [
-    { id: 1, category: "CPU", name: "Intel Core i3-12100F", pricePEN: 350, stock: 15 },
-    { id: 2, category: "CPU", name: "Intel Core i5-13600K", pricePEN: 1040, stock: 8 },
-    { id: 3, category: "GPU", name: "NVIDIA RTX 3060", pricePEN: 1200, stock: 5 },
-    { id: 4, category: "RAM", name: "Corsair Vengeance 16GB", pricePEN: 180, stock: 12 },
-    { id: 5, category: "CPU", name: "Intel Core i3-12100F", pricePEN: 350, stock: 15 },
-    { id: 6, category: "CPU", name: "Intel Core i5-13600K", pricePEN: 1040, stock: 8 },
-    { id: 7, category: "GPU", name: "NVIDIA RTX 3060", pricePEN: 1200, stock: 5 },
-    { id: 8, category: "RAM", name: "Corsair Vengeance 16GB", pricePEN: 180, stock: 12 },
-  ];
-
+  const [warehouses, setWarehouses] = useState<GateWayAPI.Warehouse[]>([]);
+  const [providers, setProviders] = useState<GateWayAPI.Provider[]>([]);
+  const [salesStaff, setSalesStaff] = useState<GateWayAPI.User[]>([]);
   const [selectedStaff, setSelectedStaff] = useState("");
   const [selectedWarehouse, setSelectedWarehouse] = useState("");
   const [selectedProvider, setSelectedProvider] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedProducts, setSelectedProducts] = useState<{ product: Product, quantity: number }[]>([]);
+  const [products, setProducts] = useState<GateWayAPI.Product[]>([]); // Inicializa el estado de productos
 
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
-  const startChangingQuantity = (change: number, product: Product) => {
-    handleQuantityChange(product, change);
-    intervalRef.current = setInterval(() => {
-      handleQuantityChange(product, change);
-    }, 100); // velocidad de repetición
-  };
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [warehousesData, providersData, usersData, productsData] = await Promise.all([
+          GateWayAPI.getAllWarehouses(),
+          GateWayAPI.getAllProviders(),
+          GateWayAPI.getAllUsers(),
+          GateWayAPI.getAvailableProducts(),
+        ]);
 
-  const stopChangingQuantity = () => {
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-      intervalRef.current = null;
-    }
-  };
+        setWarehouses(warehousesData);
+        setProviders(providersData);
+        setSalesStaff(usersData);
+        setProducts(productsData);
 
-  const filteredComponents = pcComponents.filter(component =>
-    component.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    component.category.toLowerCase().includes(searchTerm.toLowerCase())
+        console.log("Warehouses:", warehousesData);
+        console.log("Providers:", providersData);
+        console.log("Sales Staff:", usersData);
+        console.log("Products:", productsData);
+
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
+  }, []);
+
+
+
+  const filteredComponents: Product[] = products.filter(component =>
+    component.nameProduct.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+
 
   const handleQuantityChange = (product: Product, change: number) => {
     setSelectedProducts(prev => {
-      const existingIndex = prev.findIndex(item => item.product.id === product.id);
+      const existingIndex = prev.findIndex(item => item.product.idProduct === product.idProduct);
 
       if (existingIndex >= 0) {
         const newQuantity = prev[existingIndex].quantity + change;
 
         if (newQuantity <= 0) {
-          return prev.filter(item => item.product.id !== product.id);
+          return prev.filter(item => item.product.idProduct !== product.idProduct);
         }
 
-        if (newQuantity > 500) {
+        if (newQuantity > product.quantityProduct) {
           return prev;
         }
 
@@ -100,7 +90,7 @@ const OrderModal = ({ onClose }: OrderModalProps) => {
   };
 
   const removeProduct = (productId: number) => {
-    setSelectedProducts(prev => prev.filter(item => item.product.id !== productId));
+    setSelectedProducts(prev => prev.filter(item => item.product.idProduct !== productId));
   };
 
   const clearOrder = () => {
@@ -110,8 +100,19 @@ const OrderModal = ({ onClose }: OrderModalProps) => {
     setSelectedProducts([]);
     setSearchTerm("");
   };
-
-  const totalPEN = selectedProducts.reduce((sum, item) => sum + (item.product.pricePEN * item.quantity), 0);
+  const startChangingQuantity = (change: number, product: Product) => {
+    handleQuantityChange(product, change); // Cambia la cantidad inmediatamente
+    intervalRef.current = setInterval(() => {
+      handleQuantityChange(product, change); // Cambia la cantidad repetidamente
+    }, 100); // velocidad de repetición
+  };
+  const stopChangingQuantity = () => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
+  };
+  const totalPEN = selectedProducts.reduce((sum, item) => sum + (item.product.priceProduct * item.quantity), 0);
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
@@ -147,7 +148,7 @@ const OrderModal = ({ onClose }: OrderModalProps) => {
                 >
                   <option value="">Select sales person</option>
                   {salesStaff.map(staff => (
-                    <option key={staff.id} value={staff.id}>{staff.name}</option>
+                    <option key={staff.id} value={staff.id}>{staff.name} {staff.lastName}</option>
                   ))}
                 </select>
               </div>
@@ -164,8 +165,8 @@ const OrderModal = ({ onClose }: OrderModalProps) => {
                   required
                 >
                   <option value="">Select Warehouse</option>
-                  {warehouse.map(house => (
-                    <option key={house.id} value={house.id}>{house.name}</option>
+                  {warehouses.map(warehouse => (
+                    <option key={warehouse.id} value={warehouse.id}>{warehouse.nameWarehouse}</option>
                   ))}
                 </select>
               </div>
@@ -182,8 +183,8 @@ const OrderModal = ({ onClose }: OrderModalProps) => {
                   required
                 >
                   <option value="">Select Provider</option>
-                  {provider.map(vider => (
-                    <option key={vider.id} value={vider.id}>{vider.name}</option>
+                  {providers.map(provider => (
+                    <option key={provider.id} value={provider.id}>{provider.nameProvider}</option>
                   ))}
                 </select>
               </div>
@@ -220,19 +221,18 @@ const OrderModal = ({ onClose }: OrderModalProps) => {
                   <tbody className="bg-white divide-y divide-gray-200">
                     {filteredComponents.length > 0 ? (
                       filteredComponents.map(component => {
-                        const selectedItem = selectedProducts.find(item => item.product.id === component.id);
+                        const selectedItem = selectedProducts.find(item => item.product.idProduct === component.idProduct);
                         const quantity = selectedItem ? selectedItem.quantity : 0;
 
                         return (
-                          <tr key={component.id} className="hover:bg-gray-50">
+                          <tr key={component.idProduct} className="hover:bg-gray-50">
                             <td className="px-4 py-3 whitespace-nowrap">
-                              <div className="font-medium text-gray-900">{component.name}</div>
-                              <div className="text-xs text-gray-500">{component.category}</div>
+                              <div className="font-medium text-gray-900">{component.nameProduct}</div>
                             </td>
-                            <td className={`px-4 py-3 text-center whitespace-nowrap ${component.stock > 5 ? "text-green-600" : "text-yellow-600"}`}>
-                              {component.stock} {component.stock > 5 ? 'available' : 'out of stock'}
+                            <td className={`px-4 py-3 text-center whitespace-nowrap ${component.quantityProduct > 5 ? "text-green-600" : "text-yellow-600"}`}>
+                              {component.quantityProduct} {component.quantityProduct > 5 ? 'available' : 'out of stock'}
                             </td>
-                            <td className="px-4 py-3 text-right whitespace-nowrap font-mono">S/ {component.pricePEN.toFixed(2)}</td>
+                            <td className="px-4 py-3 text-right whitespace-nowrap font-mono">S/ {component.priceProduct.toFixed(2)}</td>
                             <td className="px-4 py-3 whitespace-nowrap">
                               <div className="flex justify-center">
                                 <div className="flex items-center border border-gray-300 rounded-md">
@@ -240,29 +240,31 @@ const OrderModal = ({ onClose }: OrderModalProps) => {
                                     type="button"
                                     onMouseDown={() => startChangingQuantity(-1, component)}
                                     onMouseUp={stopChangingQuantity}
-                                    onMouseLeave={stopChangingQuantity}
+                                    onMouseOut={stopChangingQuantity}
                                     onTouchStart={() => startChangingQuantity(-1, component)}
                                     onTouchEnd={stopChangingQuantity}
                                     className={`px-2 py-1 ${quantity > 0 ? "text-gray-600 hover:bg-gray-100" : "text-gray-300 cursor-not-allowed"}`}
                                     disabled={quantity <= 0}
                                   >
-                                    <FiMinus size={15} />
+                                    <FiMinus size={14} />
                                   </button>
-                                  <span className="px-2 py-1 text-sm text-center border-x">
+
+                                  <span className="px-2 text-sm w-6 text-center border-x border-gray-300">
                                     {quantity}
                                   </span>
                                   <button
                                     type="button"
                                     onMouseDown={() => startChangingQuantity(1, component)}
                                     onMouseUp={stopChangingQuantity}
-                                    onMouseLeave={stopChangingQuantity}
-                                    onTouchStart={() => startChangingQuantity(1, component)}
-                                    onTouchEnd={stopChangingQuantity}
-                                    className={`px-2 py-1 ${quantity < 500 ? "text-gray-600 hover:bg-gray-100" : "text-gray-300 cursor-not-allowed"}`}
-                                    disabled={quantity >= 500}
+                                    onMouseOut={stopChangingQuantity} // Mejor que onMouseLeave para este caso
+                                    onTouchStart={() => startChangingQuantity(1, component)} // Para móviles
+                                    onTouchEnd={stopChangingQuantity} // Para móviles
+                                    className={`px-2 py-1 ${quantity < component.quantityProduct ? "text-gray-600 hover:bg-gray-100" : "text-gray-300 cursor-not-allowed"}`}
+                                    disabled={quantity >= component.quantityProduct}
                                   >
-                                    <FiPlus size={15} />
+                                    <FiPlus size={14} />
                                   </button>
+
                                 </div>
                               </div>
                             </td>
@@ -277,10 +279,12 @@ const OrderModal = ({ onClose }: OrderModalProps) => {
                       </tr>
                     )}
                   </tbody>
+
                 </table>
               </div>
             </div>
 
+            {/* Order Summary */}
             <div className="md:w-80 flex-shrink-0">
               <h3 className="text-sm font-medium text-gray-700 mb-2">SUMMARY OF THE ORDER</h3>
               <div className="border border-gray-200 rounded-lg p-4 h-full flex flex-col">
@@ -288,15 +292,15 @@ const OrderModal = ({ onClose }: OrderModalProps) => {
                   <>
                     <div className="flex-grow overflow-y-auto max-h-64 space-y-3 mb-4">
                       {selectedProducts.map(item => (
-                        <div key={item.product.id} className="flex justify-between items-center p-2 bg-gray-50 rounded">
+                        <div key={item.product.idProduct} className="flex justify-between items-center p-2 bg-gray-50 rounded">
                           <div className="flex-1 min-w-0">
-                            <p className="text-sm font-medium truncate">{item.product.name}</p>
-                            <p className="text-xs text-gray-500">x{item.quantity} @ S/ {item.product.pricePEN.toFixed(2)}</p>
+                            <p className="text-sm font-medium truncate">{item.product.nameProduct}</p>
+                            <p className="text-xs text-gray-500">x{item.quantity} @ S/ {item.product.priceProduct.toFixed(2)}</p>
                           </div>
                           <div className="flex items-center space-x-2">
-                            <span className="font-mono text-sm">S/ {(item.product.pricePEN * item.quantity).toFixed(2)}</span>
+                            <span className="font-mono text-sm">S/ {(item.product.priceProduct * item.quantity).toFixed(2)}</span>
                             <button
-                              onClick={() => removeProduct(item.product.id)}
+                              onClick={() => removeProduct(item.product.idProduct)}
                               className="text-red-500 hover:text-red-700 p-1"
                               aria-label="Eliminar producto"
                             >
@@ -373,6 +377,7 @@ const OrderModal = ({ onClose }: OrderModalProps) => {
 };
 
 export default OrderModal;
+
 
 
 /*
