@@ -99,7 +99,7 @@ export const getUserIdByName = async (name: string): Promise<number> => {
     const res = await axios.get<UserResponse[]>(`${GATEWAY_URL}/api/users`);
     const user = res.data.find(user => user.name === name); 
     if (user) {
-      return user.id; // Retorna el ID del usuario encontrado
+      return user.id; 
     } else {
       throw new Error("User  not found");
     }
